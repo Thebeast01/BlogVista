@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { NextPage } from "next"
 import SignupBackground from "../uiComponents/SignupBackground"
-const register: NextPage = () => {
+const Register: NextPage = () => {
   const [registerData, setRegisterData] = useState({
     name: "",
     email: "",
@@ -59,4 +59,4 @@ const register: NextPage = () => {
     </SignupBackground >
   )
 }
-export default register
+export default Register
