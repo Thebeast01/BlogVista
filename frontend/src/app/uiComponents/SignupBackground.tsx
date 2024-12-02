@@ -1,6 +1,10 @@
 'use client'
 
-const SignupBackground = ({ children, backgroundURI }) => {
+type Props = {
+  children: React.ReactElement | React.ReactElement[];
+  backgroundURI: string;
+}
+const SignupBackground: React.FC<Props> = ({ children, backgroundURI }) => {
   return (
     <div className='relative min-h-screen flex items-center justify-center '>
       <div className="absolute inset-0 bg-cover bg-center z-0"
