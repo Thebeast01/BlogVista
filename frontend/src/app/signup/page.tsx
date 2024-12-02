@@ -8,9 +8,9 @@ const register: NextPage = () => {
     name: "",
     email: "",
     password: "",
-    confirmPassword: ''
   })
-  const registerHandle = () => {
+  const registerHandle = (e) => {
+    e.prevnetDefault()
     console.log(registerData)
   }
   return (
@@ -27,6 +27,7 @@ const register: NextPage = () => {
               type="text"
               className="w-full px-4 py-2 bg-white/10 border border-white/20 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
               placeholder="Enter your name"
+              onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
             />
           </div>
           <div>
@@ -35,6 +36,7 @@ const register: NextPage = () => {
               type="email"
               className="w-full px-4 py-2 bg-white/10 border border-white/20 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
               placeholder="Enter your email"
+              onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
             />
           </div>
           <div>
@@ -43,6 +45,7 @@ const register: NextPage = () => {
               type="password"
               className="w-full px-4 py-2 bg-white/10 border border-white/20 text-slate-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
               placeholder="Enter your password"
+              onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
             />
           </div>
           <button
