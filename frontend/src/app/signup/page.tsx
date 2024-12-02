@@ -9,8 +9,8 @@ const Register: NextPage = () => {
     email: "",
     password: "",
   })
-  const registerHandle = (e) => {
-    e.prevnetDefault()
+  const registerHandle = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     console.log(registerData)
   }
   return (
