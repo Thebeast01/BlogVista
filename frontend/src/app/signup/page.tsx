@@ -20,7 +20,7 @@ const register: NextPage = () => {
         <h2 className="text-3xl font-bold text-center text-slate-100 mb-6">
           Sign Up
         </h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={registerHandle}>
           <div>
             <label className="block text-slate-300 mb-2">Name</label>
             <input
