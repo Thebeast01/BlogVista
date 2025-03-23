@@ -1,5 +1,6 @@
 import { Context, Next } from 'hono'
 import { verify } from 'hono/jwt'
+import { getCookie } from 'hono/cookie';
 import { bindings, variables } from '../types/types';
 type JWTPayload = {
   id: string;
@@ -9,14 +10,14 @@ export const authMiddleware = async (
   next: Next
 ) => {
   try {
-    const jwt = c.req.header("Authorization")
-    if (!jwt) {
+    const token = getCookie(c, 'token')
+    console.log("This is token from auth authMiddleware", token)
+    if (!token) {
       c.status(401)
       return c.json({ error: "No JWT Provided" })
     }
 
     // Fixed: Split by space ' ' not empty string ''
-    const token = jwt
     if (!token) {
       c.status(401)
       return c.json({ error: "Invalid token format" })

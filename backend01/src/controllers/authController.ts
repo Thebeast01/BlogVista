@@ -3,18 +3,14 @@ import { sign } from 'hono/jwt'
 import { Context } from "hono";
 import { getPrisma } from "../db/db";
 import { bindings } from '../types/types';
+import { setCookie } from 'hono/cookie';
 
 export const signUp = async (c: Context<{ Bindings: bindings }>) => {
-
-
-
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json()
   const isPresent = await prisma.user.findUnique({
-
     where: {
       email: body.email,
-
     }
   })
 
@@ -32,8 +28,11 @@ export const signUp = async (c: Context<{ Bindings: bindings }>) => {
         password: body.password
       }
     });
-    const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-    return c.json(jwt);
+    //const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
+    return c.json({
+      message: "User Created Successfully",
+      user
+    });
 
   } catch (e) {
     c.status(403);
@@ -59,9 +58,16 @@ export const login = async (c: Context<{ Bindings: bindings }>) => {
     })
   }
   const jwt = await sign({ id: user.id }, c.env.JWT_SECRET)
-  return c.json({
-    "Message": "User Found ",
-    jwt
+  setCookie(c, 'token', jwt, {
+    path: '/',
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 7,
+    secure: true,
+    sameSite: 'strict'
   })
+  return c.json({
+    Message: "User Found ",
+  })
+
 }
 
