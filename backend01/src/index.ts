@@ -9,7 +9,12 @@ const app = new Hono<{
   Variable: variables
 }>();
 
-app.use(cors())
+app.use(cors({
+  origin: ['http://localhost:3000'],
+  credentials: true,
+  allowHeaders: ['Content-Type'],
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}))
 app.get('/', (c) => c.json('Working'))
 app.route('/api/v1/auth', authRouter)
 app.route('/api/v1/blog', blogRouter)

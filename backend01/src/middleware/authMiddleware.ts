@@ -10,18 +10,14 @@ export const authMiddleware = async (
   next: Next
 ) => {
   try {
-    const token = getCookie(c, 'token')
+    const token = getCookie(c, "token")
     console.log("This is token from auth authMiddleware", token)
     if (!token) {
       c.status(401)
       return c.json({ error: "No JWT Provided" })
     }
 
-    // Fixed: Split by space ' ' not empty string ''
-    if (!token) {
-      c.status(401)
-      return c.json({ error: "Invalid token format" })
-    }
+
 
     try {
       const payload = await verify(token, c.env.JWT_SECRET) as JWTPayload

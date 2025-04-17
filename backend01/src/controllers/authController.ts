@@ -4,70 +4,99 @@ import { Context } from "hono";
 import { getPrisma } from "../db/db";
 import { bindings } from '../types/types';
 import { setCookie } from 'hono/cookie';
-
+import bcryptjs from 'bcryptjs'
+import { userSchema } from '../types';
 export const signUp = async (c: Context<{ Bindings: bindings }>) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json()
-  const isPresent = await prisma.user.findUnique({
+  const parsedBody = userSchema.safeParse(body)
+  if (!parsedBody.success) {
+    c.status(403);
+    return c.json({
+      error: "Invalid Input",
+      issues: parsedBody.error.issues
+    })
+  }
+  const isPresent = await prisma.user.findFirst({
     where: {
-      email: body.email,
+      OR: [
+        {
+          email: parsedBody.data.email
+        },
+        {
+          username: parsedBody.data.username
+        }
+      ]
     }
   })
 
   if (isPresent) {
     c.status(403);
     return c.json({
-      error: "User Already Exists"
+      error: "User Already Exists with this email or username"
     })
   }
   try {
+    const hashedPassword = await bcryptjs.hash(parsedBody.data.password, 10);
     const user = await prisma.user.create({
       data: {
-        email: body.email,
-        name: body.name,
-        password: body.password
+        email: parsedBody.data.email,
+        username: parsedBody.data.username,
+        password: hashedPassword
       }
     });
-    //const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
     return c.json({
       message: "User Created Successfully",
       user
     });
-
   } catch (e) {
     c.status(403);
     return c.json({ error: "error while signing up", e });
   }
-
 }
 
+// Login Starts here
 export const login = async (c: Context<{ Bindings: bindings }>) => {
-  const prisma = getPrisma(c.env.DATABASE_URL);
+  try {
+    const prisma = getPrisma(c.env.DATABASE_URL);
+    const body = await c.req.json();
 
-  const body = await c.req.json();
-  const user = await prisma.user.findUnique({
-    where: {
-      email: body.email
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
 
-    }
-  })
-  if (!user) {
-    c.status(403);
-    return c.json({
-      error: "User Not Found"
+          {
+            username: body.userData
+          },
+          {
+            email: body.userData
+          }
+        ]
+      }
     })
+    if (!user) {
+      c.status(403);
+      return c.json({
+        error: "User Not Found"
+      })
+    }
+    const isMatch = await bcryptjs.compare(body.password, user.password);
+    if (!isMatch) {
+      c.status(403);
+      return c.json({
+        error: "Invalid Password"
+      })
+    }
+    const jwt = await sign({ id: user.id }, c.env.JWT_SECRET)
+    setCookie(c, 'token', jwt)
+    return c.json({
+      Message: "Login Successful",
+      user
+    })
+  } catch (e) {
+    c.status(403);
+    return c.json({ error: "error while logging in", e });
   }
-  const jwt = await sign({ id: user.id }, c.env.JWT_SECRET)
-  setCookie(c, 'token', jwt, {
-    path: '/',
-    httpOnly: true,
-    maxAge: 60 * 60 * 24 * 7,
-    secure: true,
-    sameSite: 'strict'
-  })
-  return c.json({
-    Message: "User Found ",
-  })
 
 }
 
