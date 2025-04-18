@@ -8,7 +8,7 @@ export const Landing = () => {
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-6">Thoughts & Ideas</h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Exploring life's complexities through words. A collection of stories, insights, and reflections.
+            Exploring life&apos;s complexities through words. A collection of stories, insights, and reflections.
           </p>
           <button className="border-1 border-white rounded-md px-8 py-3 flex items-center mx-auto hover:bg-white hover:text-black transition-colors cursor-pointer">
             Start Reading <ArrowRight className="ml-2" />
