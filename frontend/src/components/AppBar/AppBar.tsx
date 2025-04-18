@@ -6,8 +6,8 @@ import { Model } from "../model/model"
 
 export const AppBar = () => {
   const router = useRouter();
-  const [showModal, setShowModal] = useState<Boolean>(false)
-  const [currentModel, setCurrentModel] = useState<String>("")
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [currentModel, setCurrentModel] = useState<string>("")
 
   const menuItems = [
     {

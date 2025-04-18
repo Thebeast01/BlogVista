@@ -1,12 +1,12 @@
 export interface ModelProps {
-  x: String;
+  x: string;
   onClose: () => void;
 }
 export interface blogInterface {
-  title: String;
-  id: String;
-  description: String;
-  authorId: String;
+  title: string;
+  id: string;
+  description: string;
+  authorId: string;
 
-  createdAt: String;
+  createdAt: string;
 }
