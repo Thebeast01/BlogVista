@@ -6,7 +6,7 @@
 // import Highlight from "@tiptap/extension-highlight";
 // import TextAlign from "@tiptap/extension-text-align";
 // import { useEffect } from "react";
- 
+
 // interface TextEditorProps{
 //   content:string
 //   onChange:(content:string)=>void
@@ -57,7 +57,7 @@
 //   if(!editor) return null
 //   return (
 //     <>
-    
+
 //       <Menubar editor={editor} />
 //       <EditorContent editor={editor} />
 //     </>
@@ -88,7 +88,9 @@ interface TextEditorProps {
 }
 
 export default function TextEditor({ content, onChange }: TextEditorProps) {
+
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         bulletList: {
