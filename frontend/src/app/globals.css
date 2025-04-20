@@ -130,4 +130,7 @@
   h3 { 
     font-size: 1.1rem; 
   }
+  .prose img {
+    @apply w-48 h-50 rounded-lg; /* Tailwind size control */
+  }
 }
