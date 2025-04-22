@@ -3,6 +3,7 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
+  CodeIcon,
   Heading1,
   Heading2,
   Heading3,
@@ -101,6 +102,10 @@ export default function Menubar({ editor }: { editor: Editor | null }) {
       onClick: () => fileInputRef.current?.click(),
       preesed: false,
     },
+    {
+      icon:<CodeIcon className={editor.isActive('codeBlock') ? 'is-active' : ''}/>,
+      onClick:()=>editor.chain().focus().toggleCodeBlock().run(), 
+    }
   ];
 
   return (
