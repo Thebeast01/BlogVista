@@ -1,7 +1,7 @@
 import { LucideX } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import { PasswordInput } from "../ui/customPassword";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -75,7 +75,7 @@ export const Model = ({ x, onClose }: ModelProps) => {
   const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_URL}auth/login`, loginInput, {
+      const response: any = await axios.post(`${API_URL}auth/login`, loginInput, {
         withCredentials: true,
       });
       if (response.status !== 200) {

@@ -7,10 +7,11 @@ import { blogInterface } from "@/utils/interface/interface"
 export const Posts = () => {
 
   const [blogs, setBlogs] = useState<blogInterface[]>([]);
+  console.log(blogs)
   const getAllBlog = async () => {
     try {
 
-      const response = await axios.get(`http://localhost:8787/api/v1/blog/getAllBlogs`, {
+      const response: any = await axios.get(`http://localhost:8787/api/v1/blog/getAllBlogs`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"

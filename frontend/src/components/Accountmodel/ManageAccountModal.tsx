@@ -1,7 +1,6 @@
 'use client';
 import { Dialog, DialogContent, DialogHeader, DialogOverlay, DialogPortal, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import Image from "next/image";
 import { Camera } from "lucide-react";
 import { useRef } from "react";

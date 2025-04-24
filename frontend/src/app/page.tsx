@@ -1,4 +1,3 @@
-import { AppBar } from "@/components/AppBar/AppBar";
 import { Landing } from "@/components/home/Landing";
 
 export default function Home() {
