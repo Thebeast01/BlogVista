@@ -1,16 +1,19 @@
 import { LucideX } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { PasswordInput } from "../ui/customPassword";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { ModelProps } from "@/utils/interface/interface";
 import Image from "next/image";
+import { setUser } from "@/lib/store/features/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const API_URL = process.env.NEXT_BACKEND_URL || "http://localhost:8787/api/v1/";
 
 export const Model = ({ x, onClose }: ModelProps) => {
+  const dispatch = useDispatch();
   const [registerInput, setRegisterInput] = useState({
     username: "",
     email: "",
@@ -88,7 +91,10 @@ export const Model = ({ x, onClose }: ModelProps) => {
         title: "Login Success",
         showConfirmButton: false,
         timer: 1500,
+
       });
+      const user = response.data.user;
+      dispatch(setUser(user));
       onClose();
     } catch (e) {
       onClose();
@@ -141,7 +147,7 @@ export const Model = ({ x, onClose }: ModelProps) => {
         setProfilePicture(null); // Reset profile picture state
         onClose();
       }
-    } catch (e) {
+    } catch (e: any) {
       Swal.fire({
         title: "Error!",
         text: e.response?.data?.error || "Registration failed",
@@ -153,7 +159,7 @@ export const Model = ({ x, onClose }: ModelProps) => {
   };
 
   return (
-    <div className="h-screen w-screen absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="h-screen flex-1 flex-col w-screen absolute  inset-0 overflow-hidden bg-black bg-opacity-50 flex items-center justify-center">
       {x === "login" ? (
         <div className="bg-white p-4 rounded-lg w-[400px] relative">
           <LucideX
@@ -167,14 +173,14 @@ export const Model = ({ x, onClose }: ModelProps) => {
               type="text"
               placeholder="Username"
               className="w-full text-black rounded-md px-2 py-5 my-4"
-              onChange={(e: unknown) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setLoginInput({ ...loginInput, userData: e.target.value })
               }
             />
             <PasswordInput
               id="current_password"
               value={loginInput.password}
-              onChange={(e: any) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setLoginInput({ ...loginInput, password: e.target.value })
               }
               className="text-black px-2 py-5"
@@ -215,7 +221,7 @@ export const Model = ({ x, onClose }: ModelProps) => {
               type="text"
               placeholder="Username"
               className="w-full rounded-md text-black px-2 py-5"
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setRegisterInput({ ...registerInput, username: e.target.value })
               }
             />
@@ -223,14 +229,14 @@ export const Model = ({ x, onClose }: ModelProps) => {
               type="email"
               placeholder="Email"
               className="w-full rounded-md px-2 py-5 text-black"
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setRegisterInput({ ...registerInput, email: e.target.value })
               }
             />
             <PasswordInput
               id="current_password"
               value={registerInput.password}
-              onChange={(e: unknown) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setRegisterInput({ ...registerInput, password: e.target.value })
               }
               className="text-black px-2 py-5"
@@ -240,7 +246,7 @@ export const Model = ({ x, onClose }: ModelProps) => {
             <PasswordInput
               id="confirm_password"
               value={registerInput.confirmPassword}
-              onChange={(e: any) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setRegisterInput({
                   ...registerInput,
                   confirmPassword: e.target.value,

@@ -1,39 +1,46 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface User {
-    id: string;
-  name: string;
+  id: string;
+  username: string;
   email: string;
   avatar?: string;
 
 }
 interface AuthState {
-    user: User | null;
-    isAuthenticated: boolean;
-  }
+  user: User | null;
+  isAuthenticated: boolean;
+}
 
 const initialState: AuthState = {
   user: null,
- isAuthenticated:false
+  isAuthenticated: false
 }
 
- const AuthSlice = createSlice({
+const AuthSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-  setUser:(state,action:PayloadAction<User>)=>{
-    state.user=action.payload;
-    state.isAuthenticated=true
-  },
-  logout:(state)=>{
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    state.user=null,
-    state.isAuthenticated=false
-  }
+    setUser: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+      state.isAuthenticated = true
+      // Save user to local storage
+      localStorage.setItem('user', JSON.stringify(action.payload))
+      localStorage.setItem('isAuthenticated', 'true')
+    },
+    logout: (state) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      state.user = null,
+        state.isAuthenticated = false
+      // Remove user from local storage
+      localStorage.removeItem('user')
+      localStorage.removeItem('isAuthenticated')
+
+    }
   }
 })
 
-export const { setUser,logout } = AuthSlice.actions
+export const { setUser, logout } = AuthSlice.actions
 
 
 

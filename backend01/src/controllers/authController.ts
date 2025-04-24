@@ -9,6 +9,7 @@ import { userSchema } from '../types';
 export const signUp = async (c: Context<{ Bindings: bindings }>) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
   const body = await c.req.json()
+  console.log("This is body from signUp", body)
   const parsedBody = userSchema.safeParse(body)
   if (!parsedBody.success) {
     c.status(403);

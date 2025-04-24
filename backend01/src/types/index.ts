@@ -16,6 +16,6 @@ export const postSchema = z.object({
 
 export const userSchema = z.object({
   username: z.string(),
-  email: z.string().email().optional(),
+  email: z.string().email(),
   password: z.string().min(5),
 });
