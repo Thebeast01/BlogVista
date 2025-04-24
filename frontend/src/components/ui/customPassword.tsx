@@ -1,13 +1,12 @@
-/* eslint-disable  */
 'use client'
 import * as React from 'react'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '../ui/input'
+import { Input } from './input'
 import { cn } from '@/lib/utils'
 
-const PasswordInput = (({ className, ...props }, ref) => {
+const PasswordInput = React.forwardRef<HTMLInputElement, React.ComponentProps<typeof Input>>(({ className, ...props }, ref) => {
   const [showPassword, setShowPassword] = React.useState(false)
   const disabled = props.value === '' || props.value === undefined || props.disabled
 
