@@ -1,5 +1,4 @@
 "use client";
-
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
@@ -73,7 +72,7 @@ export default function TextEditor({ content, onChange }: TextEditorProps) {
   return (
     <div className="space-y-2">
       <Menubar editor={editor} />
-      <EditorContent editor={editor} className=" border-1 border-zinc-600 rounded-md   max-h-[500px] overflow-scroll relative" />
+      <EditorContent editor={editor} className=" border-1 border-zinc-600 rounded-md   max-h-[500px] overflow-scroll scrollbar-thin relative" />
     </div>
   );
 }
