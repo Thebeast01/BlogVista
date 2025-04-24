@@ -116,25 +116,28 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  h1 { 
-    font-size: 1.4rem; 
+
+  h1 {
+    font-size: 1.4rem;
   }
 
-  h2 { 
-    font-size: 1.2rem; 
+  h2 {
+    font-size: 1.2rem;
   }
 
-  h3 { 
-    font-size: 1.1rem; 
+  h3 {
+    font-size: 1.1rem;
   }
+
   .prose img {
-    @apply w-48 h-50 rounded-lg; /* Tailwind size control */
+    @apply w-48 h-50 rounded-lg;
+    /* Tailwind size control */
   }
 }
-
 
 .tiptap {
   .code-block {
@@ -156,7 +159,8 @@
       background-size: 1rem;
       font-size: 0.875rem;
       cursor: pointer;
-      z-index: 10; /* Ensure the select stays on top */
+      z-index: 10;
+      /* Ensure the select stays on top */
 
       &:hover {
         background-color: var(--zinc-700, #3f3f46);
@@ -175,15 +179,19 @@
 
     /* Add padding to pre to avoid overlap with the select */
     pre {
-      padding-top: 2.5rem; /* Enough space for the select (0.5rem top + 1.5rem height of select + buffer) */
-      padding-right: 3rem; /* Enough space for the select width */
+      padding-top: 2.5rem;
+      /* Enough space for the select (0.5rem top + 1.5rem height of select + buffer) */
+      padding-right: 3rem;
+      /* Enough space for the select width */
       background: var(--black, #000000);
       border-radius: 0.5rem;
       color: var(--white, #ffffff);
-      font-family: 'JetBrainsMono', monospace;
+      font-family: "JetBrainsMono", monospace;
       margin: 1.5rem 0;
-      padding-left: 1rem; /* Keep existing padding */
-      padding-bottom: 0.75rem; /* Keep existing padding */
+      padding-left: 1rem;
+      /* Keep existing padding */
+      padding-bottom: 0.75rem;
+      /* Keep existing padding */
     }
   }
 
@@ -196,7 +204,7 @@
     background: var(--black, #000000);
     border-radius: 0.5rem;
     color: var(--white, #ffffff);
-    font-family: 'JetBrainsMono', monospace;
+    font-family: "JetBrainsMono", monospace;
     margin: 1.5rem 0;
     padding: 0.75rem 1rem;
   }

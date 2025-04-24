@@ -49,7 +49,7 @@ export const AppBar = () => {
   };
 
   return (
-    <div className="relative backdrop-blur-2xl text-white flex items-center justify-between text-lg font-mono px-8 py-4">
+    <div className="fixed w-full backdrop-blur-2xl text-white flex items-center  justify-between text-lg font-mono px-8 py-4">
       <div>
         <h1 className="text-2xl text-inherit">Memoir</h1>
       </div>

@@ -159,9 +159,9 @@ export const Model = ({ x, onClose }: ModelProps) => {
   };
 
   return (
-    <div className="h-screen flex-1 flex-col w-screen absolute  inset-0 overflow-hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="h-screen flex-1  w-screen absolute  inset-0 overflow-hidden bg-black bg-opacity-50 flex items-center justify-center">
       {x === "login" ? (
-        <div className="bg-white p-4 rounded-lg w-[400px] relative">
+        <div className="bg-white p-4 rounded-lg w-[400px] relative ">
           <LucideX
             className="text-black absolute top-4 right-4"
             onClick={onClose}
