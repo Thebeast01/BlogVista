@@ -1,3 +1,4 @@
+
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from "../store/features/auth/authSlice"
 
@@ -10,8 +11,8 @@ export const makeStore = (preloadedState = undefined) => {
     preloadedState
   })
 }
-
-export const initializeStore = (store) => {
+export type AppStore = ReturnType<typeof makeStore>
+export const initializeStore = (store: AppStore) => {
   if (typeof window !== 'undefined') {
     try {
       const user = localStorage.getItem('user');
@@ -33,6 +34,5 @@ export const initializeStore = (store) => {
   }
 }
 
-export type AppStore = ReturnType<typeof makeStore>
 export type RootState = ReturnType<AppStore['getState']>
 export type AppDispatch = AppStore['dispatch']
