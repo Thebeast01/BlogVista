@@ -1,21 +1,36 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from "../store/features/auth/authSlice"
-const loadUserFromLocalStorage = () => {
-  const user = localStorage.getItem('user');
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-  return {
-    user: user ? JSON.parse(user) : null,
-    isAuthenticated,
-  };
-};
-export const makeStore = () => {
+
+// Create store with empty initial auth state
+export const makeStore = (preloadedState = undefined) => {
   return configureStore({
     reducer: {
       auth: authReducer,
-    }, preloadedState: {
-      auth: loadUserFromLocalStorage(),
     },
+    preloadedState
   })
+}
+
+export const initializeStore = (store) => {
+  if (typeof window !== 'undefined') {
+    try {
+      const user = localStorage.getItem('user');
+      const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+      // Only dispatch if we have values to update
+      if (user || isAuthenticated) {
+        store.dispatch({
+          type: 'auth/setUser',
+          payload: {
+            user: user ? JSON.parse(user) : null,
+            isAuthenticated
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load auth state from localStorage:', error);
+    }
+  }
 }
 
 export type AppStore = ReturnType<typeof makeStore>

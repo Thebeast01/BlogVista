@@ -1,18 +1,27 @@
-'use client'
-import { useRef } from 'react'
-import { Provider } from 'react-redux'
-import { makeStore, AppStore } from '../lib/store/store'
+'use client';
+
+import { useRef, useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { makeStore, initializeStore } from '../lib/store/store'; // Adjust the import path as necessary
 
 export default function StoreProvider({
   children
 }: {
   children: React.ReactNode
 }) {
-  const storeRef = useRef<AppStore | null>(null)
+  const storeRef = useRef<ReturnType<typeof makeStore> | null>(null);
+
   if (!storeRef.current) {
-    // Create the store instance the first time this renders
-    storeRef.current = makeStore()
+    // Create the store without any preloaded state for initial render
+    storeRef.current = makeStore();
   }
 
-  return <Provider store={storeRef.current}>{children}</Provider>
+  useEffect(() => {
+    // Initialize the store with localStorage values on client-side only
+    if (storeRef.current) {
+      initializeStore(storeRef.current);
+    }
+  }, []);
+
+  return <Provider store={storeRef.current}>{children}</Provider>;
 }

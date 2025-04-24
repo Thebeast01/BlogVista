@@ -32,7 +32,6 @@ const AuthSlice = createSlice({
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       state.user = null,
         state.isAuthenticated = false
-      // Remove user from local storage
       localStorage.removeItem('user')
       localStorage.removeItem('isAuthenticated')
 
