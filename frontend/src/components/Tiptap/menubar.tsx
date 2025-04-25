@@ -3,7 +3,6 @@ import {
   AlignLeft,
   AlignRight,
   Bold,
-  CodeIcon,
   Heading1,
   Heading2,
   Heading3,
@@ -15,28 +14,13 @@ import {
 } from "lucide-react";
 import { Toggle } from "../ui/toggle";
 import { Editor } from "@tiptap/react";
-import { ImageIcon } from "lucide-react";
-import { useRef } from "react";
 
-export default function Menubar({ editor }: { editor: Editor | null }) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  if (!editor) return null;
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+export default function MenuBar({ editor }: { editor: Editor | null }) {
+  if (!editor) {
+    return null;
+  }
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      editor
-        .chain()
-        .focus()
-        .setImage({ src: reader.result as string })
-        .run();
-    };
-    reader.readAsDataURL(file); // Convert image to base64
-  };
-
-  const options = [
+  const Options = [
     {
       icon: <Heading1 className="size-4" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
@@ -97,37 +81,19 @@ export default function Menubar({ editor }: { editor: Editor | null }) {
       onClick: () => editor.chain().focus().toggleHighlight().run(),
       preesed: editor.isActive("highlight"),
     },
-    {
-      icon: <ImageIcon className="size-4" />,
-      onClick: () => fileInputRef.current?.click(),
-      preesed: false,
-    },
-    {
-      icon:<CodeIcon className={editor.isActive('codeBlock') ? 'is-active' : ''}/>,
-      onClick:()=>editor.chain().focus().toggleCodeBlock().run(), 
-    }
   ];
 
   return (
-    <div className="flex flex-wrap gap-1 bg-zinc-800 p-2 rounded-md border border-zinc-700">
-      {options.map((option, index) => (
+    <div className=" border border-slate-700 rounded-md p-1 mb-1 bg-black  space-x-2 z-50">
+      {Options.map((option, index) => (
         <Toggle
           key={index}
           pressed={option.preesed}
           onPressedChange={option.onClick}
-          className="text-zinc-100 hover:bg-zinc-700"
         >
           {option.icon}
         </Toggle>
       ))}
-
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleImageUpload}
-        className="hidden"
-      />
     </div>
   );
 }

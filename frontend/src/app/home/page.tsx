@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-
 const Page = () => {
   return (
     <>
