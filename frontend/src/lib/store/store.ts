@@ -11,6 +11,7 @@ export const makeStore = (preloadedState = undefined) => {
     preloadedState
   })
 }
+
 export type AppStore = ReturnType<typeof makeStore>
 export const initializeStore = (store: AppStore) => {
   if (typeof window !== 'undefined') {
