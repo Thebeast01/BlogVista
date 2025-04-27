@@ -12,7 +12,7 @@ export const Posts = () => {
   const getAllBlog = async () => {
     try {
 
-      const response: any = await axios.get(`http://localhost:8787/api/v1/blog/getAllBlogs`, {
+      const response: any = await axios.get(`http://localhost:8000/api/post/getAllPosts`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
