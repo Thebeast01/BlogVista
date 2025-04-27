@@ -1,11 +1,10 @@
 "use client";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { Model } from "../model/model";
-import { useAppSelector } from "@/lib/hooks";
 import { logout } from "@/lib/store/features/auth/authSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -15,6 +14,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import ManageAccountModal from "../Accountmodel/ManageAccountModal";
+import { RootState } from "@/lib/store/store";
 
 export const AppBar = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -23,10 +23,9 @@ export const AppBar = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
-  const user = useAppSelector((state) => state.auth.user);
-  console.log("User from store", user)
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  console.log("is Authenticated", isAuthenticated);
+  const user = useSelector((state: RootState) => state.auth.user);
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+
   const menuItems = [
     { path: "/", label: "Home" },
     { path: "/read", label: "Read" },
@@ -47,11 +46,12 @@ export const AppBar = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
+  console.log("user", user);
 
   return (
     <div className="fixed w-full backdrop-blur-2xl text-white flex items-center  justify-between text-lg font-mono px-8 py-4">
       <div>
-        <h1 className="text-2xl text-inherit">Memoir</h1>
+        <h1 className="text-2xl text-inherit">{user?.username}</h1>
       </div>
 
       <div className="flex items-center gap-4 text-2xl">
@@ -79,7 +79,7 @@ export const AppBar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
-                  <AvatarImage src={user?.avatar || "https://github.com/shadcn.png"} alt={user?.username} />
+                  <AvatarImage src={user?.avatar} alt={user?.username} />
                   <AvatarFallback>{user?.username?.charAt(0)}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -107,7 +107,7 @@ export const AppBar = () => {
               user={{
                 username: user?.username || "",
                 email: user?.email || "",
-                avatar: user?.avatar || "",
+                avatar: user?.avatar,
               }}
             />
           </>

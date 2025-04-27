@@ -1,39 +1,34 @@
+'use client';
+import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage
+import authReducer from './features/auth/authSlice';
 
-import { configureStore } from '@reduxjs/toolkit'
-import authReducer from "../store/features/auth/authSlice"
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['auth'], // Only persist auth slice
+};
 
-// Create store with empty initial auth state
-export const makeStore = (preloadedState = undefined) => {
-  return configureStore({
-    reducer: {
-      auth: authReducer,
-    },
-    preloadedState
-  })
-}
+const rootReducer = combineReducers({
+  auth: authReducer,
+});
 
-export type AppStore = ReturnType<typeof makeStore>
-export const initializeStore = (store: AppStore) => {
-  if (typeof window !== 'undefined') {
-    try {
-      const user = localStorage.getItem('user');
-      const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-      // Only dispatch if we have values to update
-      if (user || isAuthenticated) {
-        store.dispatch({
-          type: 'auth/setUser',
-          payload: {
-            user: user ? JSON.parse(user) : null,
-            isAuthenticated
-          }
-        });
-      }
-    } catch (error) {
-      console.error('Failed to load auth state from localStorage:', error);
-    }
-  }
-}
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // redux-persist needs this
+    }),
+});
 
-export type RootState = ReturnType<AppStore['getState']>
-export type AppDispatch = AppStore['dispatch']
+// For Redux Persist
+export const persistor = persistStore(store);
+
+// Types
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+

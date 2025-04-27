@@ -11,7 +11,7 @@ import Image from "next/image";
 import { setUser } from "@/lib/store/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 
-const API_URL = process.env.NEXT_BACKEND_URL || "http://localhost:8787/api/v1/";
+const API_URL = process.env.NEXT_BACKEND_URL || "http://localhost:8000/api/";
 
 export const Model = ({ x, onClose }: ModelProps) => {
   const dispatch = useDispatch();
@@ -76,8 +76,12 @@ export const Model = ({ x, onClose }: ModelProps) => {
   const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
+      console.log("login input", loginInput)
       const response: any = await axios.post(`${API_URL}auth/login`, loginInput, {
         withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       if (response.status !== 200) {
         Swal.fire({
@@ -95,7 +99,7 @@ export const Model = ({ x, onClose }: ModelProps) => {
 
       });
       const user = response.data.user;
-      dispatch(setUser(user));
+      dispatch(setUser({ id: user.id, username: user.username, email: user.email, avatar: user.profilePicture }));
       onClose();
     } catch (e) {
       onClose();
@@ -127,15 +131,16 @@ export const Model = ({ x, onClose }: ModelProps) => {
       formData.append("email", registerInput.email);
       formData.append("password", registerInput.password);
       if (profilePicture) {
-        formData.append("profilePicture", profilePicture); // Ensure the backend expects this field name
+        formData.append("profile", profilePicture); // Ensure the backend expects this field name
       }
 
-      const response = await axios.post(`${API_URL}auth/signup`, formData, {
+      console.log("FormData:", formData);
+      const response = await axios.post(`${API_URL}auth/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Required for file uploads
         },
       });
-
+      console.log("repsonse", response)
       if (response.status === 200) {
         Swal.fire({
           position: "center",
