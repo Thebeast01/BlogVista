@@ -67,12 +67,13 @@ export const registerUser = async (req: Request, res: Response) => {
 }
 export const loginUser = async (req: Request, res: Response) => {
   const body = req.body;
+  console.log(body)
   try {
     const user = await prisma.user.findFirst({
       where: {
         OR: [
-          { email: body.email },
-          { username: body.username }
+          { email: body.userData },
+          { username: body.userData }
         ]
       }
     })
@@ -85,11 +86,9 @@ export const loginUser = async (req: Request, res: Response) => {
       res.status(400).json({ message: "Invalid password" });
       return
     }
+    console.log("User", user)
     const token = jwt.sign({ id: user.id }, jwtSecret as string)
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000
     })
     res.status(200).json({
