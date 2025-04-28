@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const BlogCard = () => {
-  // Hardcoded blog data
+  
   const blogs = [
     {
       id: 1,
@@ -83,7 +83,7 @@ const BlogCard = () => {
             <CardDescription className="text-sm text-gray-500">{blog.description}</CardDescription>
           </CardHeader>
           <CardFooter className="mt-auto">
-            <Link href={`/blog/${blog.slug}`} passHref>
+            <Link href={`/readpost/${blog.id}`} passHref>
               <Button className="w-full">Read More</Button>
             </Link>
           </CardFooter>
