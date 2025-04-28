@@ -7,11 +7,11 @@ import { deleteImageOnCloudinary, uploadImageOnCloudinary } from "../../utils/cl
 const jwtSecret = process.env.JWT_SECRET
 export const registerUser = async (req: Request, res: Response) => {
   const localImagePath = req.file?.path;
-
+  console.log("Local Image Path", localImagePath);
   const imageUrl = await uploadImageOnCloudinary(localImagePath);
+  console.log("Image URL", imageUrl);
   try {
     const body = req.body;
-    console.log("Image Path", localImagePath);
     if (!localImagePath) {
       res.status(400).json({ message: "Image is required" });
       return
@@ -38,10 +38,8 @@ export const registerUser = async (req: Request, res: Response) => {
       return
     }
     const hashedPassword = await bcrypt.hash(body.password, 10)
-
-    console.log("Image URL", imageUrl);
     if (!imageUrl) {
-      res.status(400).json({ message: "Image upload failed" });
+      res.status(400).json({ message: "Image upload failed", });
       return
     }
     const profileUrl = imageUrl;
@@ -53,16 +51,14 @@ export const registerUser = async (req: Request, res: Response) => {
         profilePicture: profileUrl.url,
       }
     })
-    res.status(201).json({
+    res.status(200).json({
       message: "User created successfully",
+
       newUser
     })
   } catch (error) {
-
     deleteImageOnCloudinary(imageUrl?.public_id || "");
     res.status(500).json({ message: "Internal server error" });
-
-
   }
 }
 export const loginUser = async (req: Request, res: Response) => {

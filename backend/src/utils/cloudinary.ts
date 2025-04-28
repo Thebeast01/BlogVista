@@ -12,11 +12,11 @@ const uploadImageOnCloudinary = async (localFilePath: any) => {
   try {
     if (!localFilePath) return null;
     const response = await Cloudinary.uploader.upload(localFilePath, {
+
       resource_type: 'auto'
     })
-    console.log("Cloudinary Response", response);
+    console.log("Cloudinary Upload Response", response);
     fs.unlinkSync(localFilePath);
-
     return {
       url: response.secure_url,
       public_id: response.public_id
