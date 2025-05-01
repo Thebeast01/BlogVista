@@ -28,7 +28,7 @@ export const AppBar = () => {
 
   const menuItems = [
     { path: "/", label: "Home" },
-    { path: "/read", label: "Read" },
+    { path: "/readpost", label: "Read" },
     { path: "/createpost", label: "Write" },
     { path: "/about", label: "About" },
   ];
