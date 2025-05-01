@@ -1,7 +1,10 @@
+"use client"
 import { ArrowRight } from "lucide-react"
 import { Posts } from "../posts/Posts"
 import { Input } from "../ui/input"
+import { useRouter } from "next/navigation"
 export const Landing = () => {
+  const router=useRouter();
   return (
     < div className="bg-black text-white">
       <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -10,8 +13,8 @@ export const Landing = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Exploring life&apos;s complexities through words. A collection of stories, insights, and reflections.
           </p>
-          <button className="border-1 border-white rounded-md px-8 py-3 flex items-center mx-auto hover:bg-white hover:text-black transition-colors cursor-pointer">
-            Start Reading <ArrowRight className="ml-2" />
+          <button  className="border-1 border-white rounded-md px-8 py-3 flex items-center mx-auto hover:bg-white hover:text-black transition-colors cursor-pointer" onClick={()=>router.push("/readpost")}>
+            Start Reading  <ArrowRight className="ml-2" />
           </button>
         </div>
       </div>
