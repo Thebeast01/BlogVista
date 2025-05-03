@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "./ThemeProvider"
-import { Sun, Moon, TreePine, Waves, Palette } from "lucide-react";
+import { Sun, Moon, TreePine, Waves } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function ThemeSwitcher() {
@@ -56,7 +56,7 @@ export function ThemeSwitcher() {
         {themes.map((t) => (
           <DropdownMenuItem
             key={t.id}
-            onClick={() => setTheme(t.id as any)}
+            onClick={() => setTheme(t.id)}
             className={cn(
               "flex items-center gap-2 cursor-pointer",
               theme === t.id && "bg-accent"

@@ -64,7 +64,7 @@ const Register = () => {
     }
   };
 
-  const handleRegister = async (e: any) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (registerInput.password !== registerInput.confirmPassword) {
@@ -105,10 +105,11 @@ const Register = () => {
         revokePreviewUrl(); // Clean up preview URL
         setProfilePicture(null); // Reset profile picture state
       }
-    } catch (e: any) {
+    } catch (e) {
+      console.log("error", e);
       Swal.fire({
         title: "Error!",
-        text: e.response?.data?.error || "Registration failed",
+        text: "Registration failed",
         icon: "error",
         timer: 1500,
         showConfirmButton: false,
@@ -122,7 +123,7 @@ const Register = () => {
           Register
         </h1>
         <h1 className="text-xl text-accent-foreground text-center">Welcome!</h1>
-        <form className="flex flex-col gap-4 mt-4">
+        <form onSubmit={handleRegister} className="flex flex-col gap-4 mt-4">
           <Input
             value={registerInput.username}
             type="text"
@@ -217,7 +218,7 @@ const Register = () => {
             <Button
               variant={"outline"}
               className="bg-accent text-primary py-2 px-6 rounded-md"
-              onClick={handleRegister}
+              type="submit"
             >
               Register
             </Button>

@@ -16,7 +16,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const API_URL = process.env.NEXT_BACKEND_URL || "http://localhost:8000/api/";
   const router = useRouter()
-  const handleLogin = async (e: unknow) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       console.log("login input", loginInput)
@@ -62,7 +62,7 @@ const Login = () => {
 
         <h1 className="text-2xl font-bold text-primary text-center">Login</h1>
         <h5 className="text-xl text-foreground text-center">Welcome Back!</h5>
-        <form className="flex flex-col gap-2">
+        <form onSubmit={handleLogin} className="flex flex-col gap-2">
           <Input
             type="text"
             placeholder="Username"
@@ -92,7 +92,7 @@ const Login = () => {
             <Button
               variant={"outline"}
               className="bg-accent font-bold text-primary py-2 px-5 text-md rounded-md"
-              onClick={handleLogin}
+              type="submit"
             >
               Login
             </Button>
