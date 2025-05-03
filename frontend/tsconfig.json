@@ -10,7 +10,7 @@
     "module": "esnext",
     "noImplicitAny" : false,
     "noUnusedLocals": false,
-    noUnusedParameters: false,
+    "noUnusedParameters": false,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
