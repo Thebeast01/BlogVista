@@ -20,6 +20,7 @@ const Login = () => {
     e.preventDefault();
     try {
       console.log("login input", loginInput)
+      //@ts-ignore
       const response: any = await axios.post(`${API_URL}auth/login`, loginInput, {
         withCredentials: true,
         headers: {
@@ -40,8 +41,12 @@ const Login = () => {
         showConfirmButton: false,
         timer: 1500,
 
+
       });
-      const user = response.data.user;
+      if (!response) {
+        return;
+      }
+      const user = response?.data.user;
       dispatch(setUser({ id: user.id, username: user.username, email: user.email, avatar: user.profilePicture }));
       router.push("/");
     } catch (e) {
