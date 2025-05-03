@@ -3,13 +3,12 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../../db";
 import jwt from "jsonwebtoken";
 import { deleteImageOnCloudinary, uploadImageOnCloudinary } from "../../utils/cloudinary";
-
+import { generateToken, verifyToken } from "authenticator";
+import { createMessage } from "../../utils/twilio";
 const jwtSecret = process.env.JWT_SECRET
 export const registerUser = async (req: Request, res: Response) => {
   const localImagePath = req.file?.path;
-  console.log("Local Image Path", localImagePath);
   const imageUrl = await uploadImageOnCloudinary(localImagePath);
-  console.log("Image URL", imageUrl);
   try {
     const body = req.body;
     if (!localImagePath) {
@@ -46,6 +45,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const newUser = await prisma.user.create({
       data: {
         email: body.email,
+        phoneNumber: body.phoneNumber,
         password: hashedPassword,
         username: body.username,
         profilePicture: profileUrl.url,
@@ -58,9 +58,10 @@ export const registerUser = async (req: Request, res: Response) => {
     })
   } catch (error) {
     deleteImageOnCloudinary(imageUrl?.public_id || "");
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", error });
   }
 }
+// LoginUser
 export const loginUser = async (req: Request, res: Response) => {
   const body = req.body;
   console.log(body)
@@ -101,4 +102,116 @@ export const loginUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error" });
   }
 
+}
+// Send OTP
+export const sendOtp = async (req: Request, res: Response) => {
+  try {
+    // Generate Time Otp
+    const { phoneNumber } = req.body;
+    if (!phoneNumber) {
+      res.status(400).json({ message: "Phone number is required" });
+      return
+    }
+    const isUser = await prisma.user.findUnique({
+      where: {
+        phoneNumber: phoneNumber
+      }
+    })
+    if (!isUser) {
+      res.status(400).json({ message: "User not found with this phoneNumber" });
+      return
+    }
+    console.log("Process Env", process.env.TOTP_SECRET)
+    const totp = generateToken(phoneNumber + process.env.TOTP_SECRET);
+    console.log("TOTP", totp);
+    // Send OTP to user
+    if (process.env.NODE_ENV === "production") {
+
+      try {
+        await createMessage("Your Password Reset Otp for VibeTrails is : " + totp, phoneNumber);
+        res.status(200).json({
+          message: "Otp sent successfully",
+        })
+      }
+      catch (error) {
+        console.log("error ", error)
+        res.status(500).json({
+          message: "Internal Server Error Or Failed to send OTP",
+          error: error
+        })
+        return;
+      }
+    }
+    res.status(200).json({
+      message: "Otp sent successfully",
+      totp: totp
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error
+    })
+    return;
+  }
+}
+// Verify Otp
+export const verifyOtp = async (req: Request, res: Response) => {
+  try {
+    const { totp, phoneNumber } = req.body;
+    if (!totp || !phoneNumber) {
+      res.status(400).json({ message: "Phone number and Otp are required" });
+      return
+    }
+    const isValid = verifyToken(phoneNumber + process.env.TOTP_SECRET, totp);
+    console.log("Is Valid", isValid);
+    if (!isValid) {
+
+      res.status(400).json({ message: "Invalid OTP" });
+      return
+    }
+    res.status(200).json({
+      success: true,
+      message: "Otp verified successfully",
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server error",
+      error: error
+    })
+    return
+  }
+}
+// Reset Password
+export const resetPassword = async (req: Request, res: Response) => {
+  try {
+    const body = req.body;
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: body.userData },
+          { username: body.userData }
+        ]
+      }
+    })
+    if (!user) {
+      res.status(400).json({ message: "User not found" })
+      return
+    }
+    const encryptedPassword = await bcrypt.hash(body.password, 10)
+    const updatePassword = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: encryptedPassword
+      }
+    })
+    res.status(200).json({
+      message: "Password Updated Successfully"
+    })
+    return;
+  } catch (error) {
+    console.log("error occured ", error)
+    res.status(500).json({ message: "Internal server error", error });
+  }
 }
