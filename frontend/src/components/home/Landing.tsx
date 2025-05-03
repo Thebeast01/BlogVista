@@ -2,9 +2,7 @@
 import { ArrowRight } from "lucide-react"
 import { Posts } from "../posts/Posts"
 import { Input } from "../ui/input"
-import { useRouter } from "next/navigation"
 export const Landing = () => {
-  const router = useRouter();
   return (
     <div className="bg-[var(--background)] text-[var(--primary)]">
       <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-8 py-20">

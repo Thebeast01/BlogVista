@@ -26,6 +26,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.dataset.theme = theme
   }, [theme])
 
+
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme)
     // localStorage and DOM update already handled in useEffect

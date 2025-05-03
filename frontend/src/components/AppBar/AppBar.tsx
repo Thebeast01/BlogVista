@@ -1,10 +1,8 @@
 "use client";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import { Model } from "../model/model";
 import { logout } from "@/lib/store/features/auth/authSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -18,16 +16,12 @@ import { RootState } from "@/lib/store/store";
 import { ThemeSwitcher } from "../Theme/ThemeSwitcher";
 
 export const AppBar = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [currentModel, setCurrentModel] = useState<string>("");
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-  const toggleThemeMenu = () => setIsOpen(!isOpen);
   const menuItems = [
     { path: "/", label: "Home" },
     { path: "/readpost", label: "Read" },
@@ -35,15 +29,7 @@ export const AppBar = () => {
     { path: "/about", label: "About" },
   ];
 
-  const handleOpenModal = (type: string) => {
-    setCurrentModel(type);
-    setShowModal(true);
-  };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setCurrentModel("");
-  };
 
   const handleLogout = () => {
     dispatch(logout());

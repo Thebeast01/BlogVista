@@ -16,7 +16,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const API_URL = process.env.NEXT_BACKEND_URL || "http://localhost:8000/api/";
   const router = useRouter()
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e: unknow) => {
     e.preventDefault();
     try {
       console.log("login input", loginInput)
@@ -45,11 +45,13 @@ const Login = () => {
       dispatch(setUser({ id: user.id, username: user.username, email: user.email, avatar: user.profilePicture }));
       router.push("/");
     } catch (e) {
+      console.log("error", e)
       Swal.fire({
         title: "Error!",
         text: "Invalid Credentials",
         icon: "error",
       });
+
     }
   };
 

@@ -5,12 +5,9 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/customPassword";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/lib/store/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-const register = () => {
-  const dispatch = useDispatch();
+const Register = () => {
   const [registerInput, setRegisterInput] = useState({
     username: "",
     email: "",
@@ -230,4 +227,4 @@ const register = () => {
     </div >
   )
 }
-export default register
+export default Register
