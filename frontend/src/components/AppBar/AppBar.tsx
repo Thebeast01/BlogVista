@@ -15,17 +15,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ManageAccountModal from "../Accountmodel/ManageAccountModal";
 import { RootState } from "@/lib/store/store";
+import { ThemeSwitcher } from "../Theme/ThemeSwitcher";
 
 export const AppBar = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [currentModel, setCurrentModel] = useState<string>("");
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-
+  const toggleThemeMenu = () => setIsOpen(!isOpen);
   const menuItems = [
     { path: "/", label: "Home" },
     { path: "/readpost", label: "Read" },
@@ -49,7 +51,7 @@ export const AppBar = () => {
   console.log("user", user);
 
   return (
-    <div className="fixed z-50 w-full backdrop-blur-2xl text-white flex items-center  justify-between text-lg font-mono px-8 py-4">
+    <div className="fixed w-full backdrop-blur-2xl text-primary flex items-center z-[50]  justify-between text-lg font-mono px-8 py-4">
       <div>
         <h1 className="text-2xl text-inherit">{user?.username}</h1>
       </div>
@@ -69,13 +71,15 @@ export const AppBar = () => {
       <div className="flex items-center gap-4">
         {!isAuthenticated ? (
           <>
-            <Button onClick={() => handleOpenModal("login")} variant="outline">
+            <ThemeSwitcher />
+            <Button onClick={() => router.push('/login')} variant="outline" className="hover:bg-foreground hover:text-background text-foreground border-foreground">
               Login
             </Button>
-            <Button onClick={() => handleOpenModal("register")}>Register</Button>
+            <Button onClick={() => router.push('/register')}>Register</Button>
           </>
         ) : (
           <>
+            <ThemeSwitcher />
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
@@ -83,14 +87,14 @@ export const AppBar = () => {
                   <AvatarFallback>{user?.username?.charAt(0)}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64 bg-zinc-900 border border-zinc-800 text-white rounded-md shadow-xl p-4"
+              <DropdownMenuContent align="end" className="w-64 bg-zinc-900 border border-zinc-800 text-[var(--primary)] rounded-md shadow-xl p-4"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <Avatar>
                     <AvatarImage src={user?.avatar || "https://github.com/shadcn.png"} alt={user?.username} />
                     <AvatarFallback>{user?.username?.charAt(0)}</AvatarFallback>
                   </Avatar>
-                  <div className="font-semibold text-white">{user?.username || "Anonymous"}</div>
+                  <div className="font-semibold text-primary">{user?.username || "Anonymous"}</div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <DropdownMenuItem onClick={() => setShowProfileModal(true)} className="cursor-pointer px-3 py-2 rounded-md hover:bg-zinc-800 transition">
@@ -114,9 +118,6 @@ export const AppBar = () => {
         )}
       </div>
 
-      {showModal &&
-        <Model x={currentModel} onClose={handleCloseModal} />
-      }
     </div>
   );
 };

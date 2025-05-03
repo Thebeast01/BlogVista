@@ -17,9 +17,9 @@ const CreatePost = () => {
     console.log(title, "title")
   }
   return (
-    <section className="flex  relative h-screen  items-center justify-center pt-12">
-      <div className=" flex flex-col gap-2 border-slate-700 border rounded-md px-2 py-2 w-1/2">
-        <Input className="border-slate-700 border px-4 py-6 text-2xl" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
+    <section className="flex   h-screen  items-center justify-center pt-12 px-5">
+      <div className=" flex flex-col gap-2 border-border border rounded-md px-2 py-2 w-2/1 h-[85dvh]">
+        <Input className="border-border text-primary border px-4 py-6 text-2xl" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
         <RichTextEditor content={post} onChange={onChange} />
         <div className="flex justify-end  items-center gap-5 py-2 ">
           <label

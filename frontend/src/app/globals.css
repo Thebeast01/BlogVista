@@ -78,38 +78,143 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+[data-theme="dark"] {
+  --background: #0f1624;
+  --foreground: #f0f4f8;
+
+  --card: #141c2b;
+  --card-foreground: #f0f4f8;
+
+  --popover: #141c2b;
+  --popover-foreground: #f0f4f8;
+
+  --primary: #f0f4f8;
+  --primary-foreground: #0f1624;
+
+  --secondary: #1a2535;
+  --secondary-foreground: #f0f4f8;
+
+  --muted: #1a2535;
+  --muted-foreground: #c2cad5;
+
+  --accent: #e6934d;
+  --accent-foreground: #f0f4f8;
+
+  --destructive: #f87171;
+  --destructive-foreground: #f0f4f8;
+
+  --border: #1a2535;
+  --input: #1a2535;
+  --ring: #c2cad5;
+}
+
+[data-theme="ocean"] {
+  --background: #f5faff;
+  /* hsl(200, 60%, 98%) */
+  --foreground: #24586d;
+  /* hsl(200, 68%, 20%) */
+
+  --card: #ffffff;
+  /* hsl(0, 0%, 100%) */
+  --card-foreground: #24586d;
+  /* hsl(200, 68%, 20%) */
+
+  --popover: #ffffff;
+  /* hsl(0, 0%, 100%) */
+  --popover-foreground: #24586d;
+  /* hsl(200, 68%, 20%) */
+
+  --primary: #3399cc;
+  /* hsl(200, 68%, 50%) */
+  --primary-foreground: #f5faff;
+  /* hsl(200, 60%, 98%) */
+
+  --secondary: #eaf4fb;
+  /* hsl(200, 60%, 94%) */
+  --secondary-foreground: #24586d;
+  /* hsl(200, 68%, 20%) */
+
+  --muted: #eaf4fb;
+  /* hsl(200, 60%, 94%) */
+  --muted-foreground: #4b7a94;
+  /* hsl(200, 68%, 40%) */
+
+  --accent: #a3d5f5;
+  /* hsl(200, 60%, 70%) */
+  --accent-foreground: #24586d;
+  /* hsl(200, 68%, 20%) */
+
+  --destructive: #ef4444;
+  /* hsl(0, 84.2%, 60.2%) */
+  --destructive-foreground: #fafafa;
+  /* hsl(0, 0%, 98%) */
+
+  --border: #d9ecf6;
+  /* hsl(200, 60%, 90%) */
+  --input: #d9ecf6;
+  /* hsl(200, 60%, 90%) */
+  --ring: #3399cc;
+  /* hsl(200, 68%, 50%) */
+}
+
+[data-theme="forest"] {
+  --background: #f1f9f1;
+  --foreground: #2e4d2e;
+
+  --card: #ffffff;
+  --card-foreground: #2e4d2e;
+
+  --popover: #ffffff;
+  --popover-foreground: #2e4d2e;
+
+  --primary: #4c8b4c;
+  --primary-foreground: #f1f9f1;
+
+  --secondary: #e8f5e8;
+  --secondary-foreground: #2e4d2e;
+
+  --muted: #e8f5e8;
+  --muted-foreground: #497c49;
+
+  --accent: #a3d6a3;
+  --accent-foreground: #2e4d2e;
+
+  --destructive: #f87171;
+  --destructive-foreground: #fafafa;
+
+  --border: #d6edd6;
+  --input: #d6edd6;
+  --ring: #4c8b4c;
+}
+
+[data-theme="summer"] {
+  --background: #fffcee;
+  --foreground: #5c3a1e;
+
+  --card: #ffffff;
+  --card-foreground: #5c3a1e;
+
+  --popover: #ffffff;
+  --popover-foreground: #5c3a1e;
+
+  --primary: #e6934d;
+  --primary-foreground: #fffcee;
+
+  --secondary: #fff5d1;
+  --secondary-foreground: #5c3a1e;
+
+  --muted: #fff5d1;
+  --muted-foreground: #9c6a3d;
+
+  --accent: #f5d27a;
+  --accent-foreground: #5c3a1e;
+
+  --destructive: #f87171;
+  --destructive-foreground: #fafafa;
+
+  --border: #f2e3b3;
+  --input: #f2e3b3;
+  --ring: #e6934d;
 }
 
 @layer base {
@@ -146,6 +251,6 @@
 
 .ProseMirror {
   width: 100%;
-  height:20rem;
+  height: 20rem;
   overflow-y: auto;
 }

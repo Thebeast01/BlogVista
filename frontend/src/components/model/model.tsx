@@ -165,7 +165,8 @@ export const Model = ({ x, onClose }: ModelProps) => {
   };
 
   return (
-    <div className="h-screen flex-1  w-screen absolute  inset-0 overflow-hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="h-screen flex-1  w-screen relative  overflow-hidden bg-background  flex items-center justify-center z-[] "
+      style={{ zIndex: 9999 }}>
       {x === "login" ? (
         <div className="bg-white p-4 rounded-lg w-[400px] relative ">
           <LucideX

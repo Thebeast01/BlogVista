@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AppBar } from "@/components/AppBar/AppBar";
 import StoreProvider from "@/lib/store/StoreProvider";
+import { ThemeProvider } from "@/components/Theme/ThemeProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,14 +25,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  const themeInitScript = `
+  (function () {
+    try {
+      const theme = localStorage.getItem('theme') || 'light';
+      document.documentElement.dataset.theme = theme;
+    } catch (_) {}
+  })();
+`;
+
+
   return (
     <html lang="en">
+      <head><script dangerouslySetInnerHTML={{ __html: themeInitScript }} /></head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased  bg-black text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased  bg-[var(--background)]`}
       >
+
         <StoreProvider>
-          <AppBar />
-          {children}
+          <ThemeProvider>
+            <AppBar />
+            {children}
+          </ThemeProvider>
         </StoreProvider>
 
       </body>

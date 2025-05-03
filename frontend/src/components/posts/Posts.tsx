@@ -1,10 +1,14 @@
 /* eslint-disable  */
 'use client'
-import { ArrowRight } from "lucide-react"
-
+import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { blogInterface } from "@/utils/interface/interface"
+import { Button } from "@/components/ui/button"
+import { CardDescription, CardTitle } from "@/components/ui/card"
+import Image from 'next/image';
 export const Posts = () => {
 
   const [blogs, setBlogs] = useState<blogInterface[]>([]);
@@ -32,20 +36,55 @@ export const Posts = () => {
   useEffect(() => {
     getAllBlog()
   }, [])
+  const posts = [
+    {
+      id: 1,
+      title: "Getting Started with Next.js",
+      description: "Learn the basics of Next.js and how to create your first application with this powerful React framework.",
+      image: "",
+      slug: "getting-started-with-nextjs"
+    },
+    {
+      id: 2,
+      title: "Understanding Tailwind CSS",
+      description: "Explore how Tailwind CSS can transform your workflow and make styling your applications easier and more consistent.",
+      image: "",
+      slug: "understanding-tailwind-css"
+    },
+    {
+      id: 3,
+      title: "Building UI Components with shadcn/ui",
+      description: "Discover how to use shadcn/ui to create beautiful, accessible components for your Next.js applications.",
+      image: "",
+      slug: "building-ui-components-with-shadcn"
+    },
+
+
+  ];
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {[1, 2, 3].map((post) => (
-        <div key={post} className="border border-white p-6 hover:bg-white/10  hover:text-white transition-colors rounded-md">
-          <p className="text-sm mb-4">December 1, 2023</p>
-          <h3 className="text-xl font-bold mb-2">The Art of Minimalism</h3>
-          <p className="mb-4">Exploring how less can be more in our daily lives and creative pursuits.</p>
-          <a href="#" className="flex w-fit px-3 py-2 items-center hover:bg-white/10 border-1 border-white/10 rounded-md"
-            onClick={getAllBlog}
-          >
+      {posts.map((post) => (
+        <Card key={post.id} className="overflow-hidden bg-background transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
+          <div className="h-48 overflow-hidden rounded-md">
+            <Image
+              src="https://github.com/shadcn.png"
+              alt={post.title}
+              className="w-full h-full px-2 rounded-sm  object-cover "
+              height={200}
+              width={200}
+            />
+          </div>
+          <CardHeader>
+            <CardTitle className="text-primary text-xl font-bold">{post.title}</CardTitle>
+            <CardDescription className="text-sm text-muted-foreground">{post.description}</CardDescription>
+          </CardHeader>
+          <CardFooter className="mt-auto">
+            <Link href={`/readpost/${post.id}`} passHref>
+              <Button className="w-full">Read More</Button>
+            </Link>
+          </CardFooter>
+        </Card>
 
-            Read More <ArrowRight className="ml-2" />
-          </a>
-        </div>
       ))}
     </div>
   )

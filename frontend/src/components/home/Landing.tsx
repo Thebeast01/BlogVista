@@ -4,17 +4,17 @@ import { Posts } from "../posts/Posts"
 import { Input } from "../ui/input"
 import { useRouter } from "next/navigation"
 export const Landing = () => {
-  const router=useRouter();
+  const router = useRouter();
   return (
-    < div className="bg-black text-white">
+    <div className="bg-[var(--background)] text-[var(--primary)]">
       <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-6">Thoughts & Ideas</h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Exploring life&apos;s complexities through words. A collection of stories, insights, and reflections.
           </p>
-          <button  className="border-1 border-white rounded-md px-8 py-3 flex items-center mx-auto hover:bg-white hover:text-black transition-colors cursor-pointer" onClick={()=>router.push("/readpost")}>
-            Start Reading  <ArrowRight className="ml-2" />
+          <button className="border-1 border-[var(--border)] rounded-md px-8 py-3 flex items-center mx-auto hover:bg-white hover:text-black transition-colors cursor-pointer">
+            Start Reading <ArrowRight className="ml-2" />
           </button>
         </div>
       </div>
@@ -35,7 +35,7 @@ export const Landing = () => {
                 placeholder="Enter your email"
                 className="flex-1 border-0 h-12  px-4 py-3 focus:outline-none text-xl"
               />
-              <button className=" text-white px-6 py-2 hover:bg-white/20 bg-white/10 transition-colors ">
+              <button className=" text-[var(--primary)] px-6 py-2 hover:bg-white/20 bg-white/10 transition-colors ">
                 Subscribe
               </button>
             </div>
