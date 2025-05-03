@@ -8,6 +8,16 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/store/features/auth/authSlice";
+
+type LoginResponse = {
+  message: string;
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    profilePicture: string;
+  };
+};
 const Login = () => {
   const [loginInput, setLoginInput] = useState({
     userData: "",
@@ -20,8 +30,7 @@ const Login = () => {
     e.preventDefault();
     try {
       console.log("login input", loginInput)
-      //@ts-ignore
-      const response: any = await axios.post(`${API_URL}auth/login`, loginInput, {
+      const response = await axios.post<LoginResponse>(`${API_URL}auth/login`, loginInput, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
