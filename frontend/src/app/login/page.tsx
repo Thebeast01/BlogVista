@@ -24,7 +24,7 @@ const Login = () => {
     password: "",
   })
   const dispatch = useDispatch();
-  const API_URL = process.env.NEXT_BACKEND_URL || "http://localhost:8000/api/";
+  const API_URL = process.env.NEXT_BACKEND_URL || "https://vibetrailsbackend.vercel.app/api/";
   const router = useRouter()
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,6 +95,7 @@ const Login = () => {
             autoComplete="current-password"
             placeholder="Password"
           />
+          <a href="/phonenumber" className="text-center text-blue-600">Forgot Password?</a>
           <div className="flex items-center justify-between gap-4 py-4">
             <Button
               variant={"outline"}
