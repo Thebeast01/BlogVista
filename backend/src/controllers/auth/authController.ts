@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { deleteImageOnCloudinary, uploadImageOnCloudinary } from "../../utils/cloudinary";
 import { generateToken, verifyToken } from "authenticator";
 import { createMessage } from "../../utils/twilio";
+import redisClient from "../../utils/redis";
 const jwtSecret = process.env.JWT_SECRET
 export const registerUser = async (req: Request, res: Response) => {
   const localImagePath = req.file?.path;
@@ -173,10 +174,12 @@ export const verifyOtp = async (req: Request, res: Response) => {
       res.status(400).json({ message: "Invalid OTP" });
       return
     }
+    await redisClient.setEx(`otp_verfied:${phoneNumber}`, 300, "true")
     res.status(200).json({
       success: true,
       message: "Otp verified successfully",
     })
+
   } catch (error) {
     res.status(500).json({
       message: "Internal Server error",
@@ -189,19 +192,21 @@ export const verifyOtp = async (req: Request, res: Response) => {
 export const resetPassword = async (req: Request, res: Response) => {
   try {
     const body = req.body;
-    const user = await prisma.user.findFirst({
+    const isVerified = await redisClient.get(`otp_verfied:${body.phoneNumber}`)
+    if (!isVerified) {
+      res.status(400).json({ message: "This phoneNumber is not verified" });
+      return
+    }
+    const user = await prisma.user.findUnique({
       where: {
-        OR: [
-          { email: body.userData },
-          { username: body.userData }
-        ]
+        phoneNumber: body.phoneNumber,
       }
     })
     if (!user) {
       res.status(400).json({ message: "User not found" })
       return
     }
-    const encryptedPassword = await bcrypt.hash(body.password, 10)
+    const encryptedPassword = await bcrypt.hash(body.newPassword, 10)
     const updatePassword = await prisma.user.update({
       where: {
         id: user.id,
@@ -213,6 +218,7 @@ export const resetPassword = async (req: Request, res: Response) => {
     res.status(200).json({
       message: "Password Updated Successfully"
     })
+    await redisClient.del(`otp_verfied:${body.phoneNumber}`)
     return;
   } catch (error) {
     console.log("error occured ", error)
