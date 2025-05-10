@@ -5,6 +5,6 @@ import { authMiddleware } from "../middleware/authMiddleware";
 const authRouter = Router();
 authRouter.post("/register", upload.single("profile"), registerUser);
 authRouter.post("/login", loginUser);
-authRouter.post("/sendOtp", authMiddleware, sendOtp)
-authRouter.post("/verifyOtp", authMiddleware, verifyOtp)
+authRouter.post("/sendOtp", sendOtp)
+authRouter.post("/verifyOtp", verifyOtp)
 export default authRouter;
