@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/store/features/auth/authSlice";
+import { API_URL } from "@/config";
 
 type LoginResponse = {
   message: string;
@@ -24,7 +25,7 @@ const Login = () => {
     password: "",
   })
   const dispatch = useDispatch();
-  const API_URL = process.env.NEXT_BACKEND_URL || "https://vibetrailsbackend.vercel.app/api/";
+
   const router = useRouter()
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
