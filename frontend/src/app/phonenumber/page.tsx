@@ -3,12 +3,13 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Swal from "sweetalert2";
-
+import {API_URL} from "@/config";
 export default function Reset() {
   const [countryCode, setCountryCode] = useState("+91");
   const [number, setnumber] = useState("")
   const router = useRouter();
-  const API_URL = process.env.NEXT_BACKEND || "https://vibetrailsbackend.vercel.app/api/"
+  // const API_URL = process.env.NEXT_BACKEND || "https://vibetrailsbackend.vercel.app/api/"
+
   const countries = [
     { code: "+91" },
     { code: "+1" },
@@ -21,7 +22,6 @@ export default function Reset() {
   const phonenumber = async (phone: string) => {
     console.log("Phone", phone)
     try {
-
       const response = await axios.post(`${API_URL}auth/sendOtp`,
         { phoneNumber: phone },
         { withCredentials: true })
