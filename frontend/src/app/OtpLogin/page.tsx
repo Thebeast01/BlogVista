@@ -37,7 +37,7 @@ export default function OTPLogin() {
               icon: "success",
               timer: 1500
             })
-            router.push("/resetpassword")
+            router.push(`/resetpassword?phone=${phone}`)
   
   }
   else {
