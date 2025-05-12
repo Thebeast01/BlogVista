@@ -65,7 +65,6 @@ export const registerUser = async (req: Request, res: Response) => {
 // LoginUser
 export const loginUser = async (req: Request, res: Response) => {
   const body = req.body;
-  console.log(body)
   try {
     const user = await prisma.user.findFirst({
       where: {
@@ -84,7 +83,6 @@ export const loginUser = async (req: Request, res: Response) => {
       res.status(400).json({ message: "Invalid password" });
       return
     }
-    console.log("User", user)
     const token = jwt.sign({ id: user.id }, jwtSecret as string)
 
     res.cookie("token", token, {
@@ -126,9 +124,7 @@ export const sendOtp = async (req: Request, res: Response) => {
       res.status(400).json({ message: "User not found with this phoneNumber" });
       return
     }
-    console.log("Process Env", process.env.TOTP_SECRET)
     const totp = generateToken(phoneNumber + process.env.TOTP_SECRET);
-    console.log("TOTP", totp);
     // Send OTP to user
     if (process.env.NODE_ENV === "production") {
 
@@ -139,7 +135,6 @@ export const sendOtp = async (req: Request, res: Response) => {
         })
       }
       catch (error) {
-        console.log("error ", error)
         res.status(500).json({
           message: "Internal Server Error Or Failed to send OTP",
           error: error
@@ -168,7 +163,6 @@ export const verifyOtp = async (req: Request, res: Response) => {
       return
     }
     const isValid = verifyToken(phoneNumber + process.env.TOTP_SECRET, totp);
-    console.log("Is Valid", isValid);
     if (!isValid) {
 
       res.status(400).json({ message: "Invalid OTP" });
@@ -221,7 +215,6 @@ export const resetPassword = async (req: Request, res: Response) => {
     await redisClient.del(`otp_verfied:${body.phoneNumber}`)
     return;
   } catch (error) {
-    console.log("error occured ", error)
     res.status(500).json({ message: "Internal server error", error });
   }
 }
