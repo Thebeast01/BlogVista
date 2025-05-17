@@ -6,11 +6,10 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { sidebarLinks } from "@/constants"
-import { Ham, Menu } from "lucide-react"
+import { Menu } from "lucide-react"
 const MobileNav = () => {
   const pathname = usePathname()
   return (
