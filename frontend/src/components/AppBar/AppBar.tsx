@@ -14,6 +14,7 @@ import {
 import ManageAccountModal from "../Accountmodel/ManageAccountModal";
 import { RootState } from "@/lib/store/store";
 import { ThemeSwitcher } from "../Theme/ThemeSwitcher";
+import MobileNav from "../mobilenav/MobileNav";
 
 export const AppBar = () => {
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
@@ -38,11 +39,14 @@ export const AppBar = () => {
 
   return (
     <div className="fixed w-full backdrop-blur-2xl text-primary flex items-center z-[50]  justify-between text-lg font-mono px-8 py-4">
-      <div>
-        <h1 className="text-2xl text-inherit">{user?.username}</h1>
-      </div>
 
-      <div className="flex items-center gap-4 text-2xl">
+      <div className="sm:hidden">
+        <MobileNav />
+      </div>
+      <div className="flex items-center gap-4">
+        <h1 className="text-2xl text-inherit hidden sm:flex">VibeTrails</h1>
+      </div>
+      <div className=" hidden sm:flex items-center  gap-4 text-2xl">
         {menuItems.map((item, index) => (
           <Button
             onClick={() => router.push(item.path)}

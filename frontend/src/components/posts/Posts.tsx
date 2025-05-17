@@ -64,19 +64,19 @@ export const Posts = () => {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post) => (
-        <Card key={post.id} className="overflow-hidden bg-background transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
+        <Card key={post.id} className="overflow-hidden bg-card transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
           <div className="h-48 overflow-hidden rounded-md">
             <Image
               src="https://github.com/shadcn.png"
               alt={post.title}
-              className="w-full h-full px-2 rounded-sm  object-cover "
+              className="w-full h-full px-2  object-cover "
               height={200}
               width={200}
             />
           </div>
           <CardHeader>
-            <CardTitle className="text-primary text-xl font-bold">{post.title}</CardTitle>
-            <CardDescription className="text-sm text-muted-foreground">{post.description}</CardDescription>
+            <CardTitle className="text-card-foreground text-xl font-bold">{post.title}</CardTitle>
+            <CardDescription className="text-sm text-secondary-foreground">{post.description}</CardDescription>
           </CardHeader>
           <CardFooter className="mt-auto">
             <Link href={`/readpost/${post.id}`} passHref>

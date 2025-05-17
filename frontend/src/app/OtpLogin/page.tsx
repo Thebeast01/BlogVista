@@ -51,9 +51,9 @@ export default function OTPLogin() {
         // You can redirect to dashboard or password reset, etc.
         router.push(`/resetpassword?phone=${encodeURIComponent(phoneNumber)}`);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      Swal.fire("Error!", error?.response?.data?.message || "Something went wrong", "error");
+      Swal.fire("Error!", "Something went wrong", "error");
     }
   };
 

@@ -68,19 +68,19 @@ const BlogCard = () => {
   return (
     <div className="grid grid-cols-1 border-1 border-border relative  md:grid-cols-2 lg:grid-cols-4 gap-6 pt-30 p-4">
       {blogs.map((blog) => (
-        <Card key={blog.id} className="overflow-hidden bg-background transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
+        <Card key={blog.id} className="overflow-hidden bg-card transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
           <div className="h-48 overflow-hidden rounded-md">
             <Image
               src="https://github.com/shadcn.png"
               alt={blog.title}
-              className="w-full h-full px-2 rounded-sm  object-cover "
+              className="w-full h-full px-2 rounded-sm  object-cover  "
               height={200}
               width={200}
             />
           </div>
           <CardHeader>
-            <CardTitle className="text-primary text-xl font-bold">{blog.title}</CardTitle>
-            <CardDescription className="text-sm text-muted-foreground">{blog.description}</CardDescription>
+            <CardTitle className="text-foreground text-xl font-bold">{blog.title}</CardTitle>
+            <CardDescription className="text-sm text-secondary-foreground">{blog.description}</CardDescription>
           </CardHeader>
           <CardFooter className="mt-auto">
             <Link href={`/readpost/${blog.id}`} passHref>
