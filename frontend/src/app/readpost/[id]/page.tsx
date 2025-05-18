@@ -5,8 +5,8 @@ import Image from "next/image";
 
 export default function UserPost() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-20 bg-black">
-      
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-20 bg-background text-foreground">
+
       {/* Blog Title */}
       <h1 className="text-4xl font-bold text-center mb-6 max-w-2xl">
         This new IDE from Google is an absolute game changer
