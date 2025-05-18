@@ -18,7 +18,7 @@ const CreatePost = () => {
   }
   return (
     <section className="flex   h-screen  items-center justify-center pt-12 px-5">
-      <div className=" flex flex-col gap-2 border-border border rounded-md px-2 py-2 w-2/1 h-[85dvh]">
+      <div className=" flex flex-col gap-2 border-border border rounded-md px-2 py-2 w-2/1 h-2/1">
         <Input className="border-border text-primary border px-4 py-6 text-2xl" placeholder="Title" onChange={(e) => setTitle(e.target.value)} />
         <RichTextEditor content={post} onChange={onChange} />
         <div className="flex justify-end  items-center gap-5 py-2 ">

@@ -9,6 +9,7 @@ import { blogInterface } from "@/utils/interface/interface"
 import { Button } from "@/components/ui/button"
 import { CardDescription, CardTitle } from "@/components/ui/card"
 import Image from 'next/image';
+import { API_URL } from '@/config';
 export const Posts = () => {
 
   const [blogs, setBlogs] = useState<blogInterface[]>([]);
@@ -16,7 +17,7 @@ export const Posts = () => {
   const getAllBlog = async () => {
     try {
 
-      const response: any = await axios.get(`http://localhost:8000/api/post/getAllPosts`, {
+      const response: any = await axios.get(`${API_URL}/post/getAllPosts`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
