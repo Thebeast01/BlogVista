@@ -66,7 +66,7 @@ const BlogCard = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 border-1 border-border relative  md:grid-cols-2 lg:grid-cols-4 gap-6 pt-30 p-4">
+    <div className="grid grid-cols-1 border-1 border-border relative  bg-background md:grid-cols-2 lg:grid-cols-4 gap-6 pt-30 p-4">
       {blogs.map((blog) => (
         <Card key={blog.id} className="overflow-hidden bg-card transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
           <div className="h-48 overflow-hidden rounded-md">
