@@ -45,6 +45,7 @@ export const AppBar = () => {
       </div>
       <div className="flex items-center gap-4">
         <h1 className="text-2xl text-inherit hidden sm:flex">VibeTrails</h1>
+        
       </div>
       <div className=" hidden sm:flex items-center  gap-4 text-2xl">
         {menuItems.map((item, index) => (
@@ -62,7 +63,7 @@ export const AppBar = () => {
         {!isAuthenticated ? (
           <>
             <ThemeSwitcher />
-            <Button onClick={() => router.push('/login')} variant="outline" className="hover:bg-foreground hover:text-background text-foreground border-foreground">
+            <Button onClick={() => router.push('/login')} variant="outline" className="hover:bg-foreground  text-foreground border-foreground">
               Login
             </Button>
             <Button onClick={() => router.push('/register')}>Register</Button>

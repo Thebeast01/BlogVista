@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import Image from "next/image";
 // import Link from "next/link";
 import { Card } from "@/components/ui/card";
@@ -9,13 +9,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Mail,
+  GithubIcon,
   Twitter,
   Instagram,
   Linkedin,
   ArrowRight,
-  ChevronDown
+  ChevronDown,
+  Mail
 } from "lucide-react";
+
 
 export default function AboutPage() {
   const [scrollY, setScrollY] = useState(0);
@@ -30,6 +32,11 @@ export default function AboutPage() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+ const teamref=useRef<HTMLDivElement>(null)
+ 
+ const handlescroltoteam=()=>{
+  teamref.current?.scrollIntoView({behavior:"smooth"})
+ }
 
   return (
     <main className="min-h-screen  ">
@@ -54,6 +61,7 @@ export default function AboutPage() {
             Discover the passion and purpose that drives our digital ink
           </p>
           <Button
+          onClick={handlescroltoteam}
             variant="secondary"
             size="lg"
             className="group animate-in fade-in slide-in-from-bottom-8 text-foreground duration-1000 delay-300"
@@ -97,7 +105,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-24 px-6 bg-background ">
+      <section ref={teamref} className="py-24 px-6 bg-background ">
         <div className="max-w-6xl mx-auto text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight text-primary mb-4">Meet The Team</h2>
           <p className="text-lg text-foreground max-w-2xl mx-auto">
@@ -105,48 +113,57 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-3xl mx-auto ">
           {[
             {
-              name: "Alex Morgan",
-              role: "Founder & Editor-in-Chief",
-              bio: "With over 10 years in digital publishing, Alex brings vision and editorial excellence to every piece we publish.",
-              avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              name: "Mohammad saif",
+              role: "Backend Developer",
+              bio: "saif  built a robust backend system, handling data flow and server logic with precision and reliability.",
+              avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+              linkedin:"https://www.linkedin.com/in/mohammad-saif01",
+              twitter:"https://x.com/_beast0",
+              github:"https://github.com/Thebeast01"
             },
             {
-              name: "Jordan Taylor",
-              role: "Senior Writer",
-              bio: "A wordsmith with a background in literature and cultural studies, Jordan specializes in thought-provoking long-form content.",
-              avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-            },
-            {
-              name: "Casey Zhang",
-              role: "Tech Editor",
-              bio: "Former software engineer turned writer, Casey breaks down complex technical concepts into accessible insights.",
-              avatar: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              name: "Shailja yadav ",
+              role: "Frontend developer",
+              bio: "shailja crafted an intuitive and responsive UI, ensuring a smooth and engaging user experience",
+              avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+              linkedin:"https://www.linkedin.com/in/shailja-yadav-643853252/",
+              twitter:"https://x.com/Shailja5911",
+              github:"https://github.com/shailjayadav30",
             }
           ].map((member, index) => (
-            <Card key={index} className=" bg-card group p-6 hover:shadow-md transition-all duration-300 text-center h-full flex flex-col">
-              <div className="mb-6 mx-auto">
+            <Card key={index} className="  bg-card group p-6 hover:shadow-md transition-all duration-300 text-center h-full flex flex-col">
+              <div className=" mx-auto">
                 <Avatar className="h-24 w-24 border-4 border-background group-hover:border-primary transition-all duration-300">
                   <AvatarImage src={member.avatar} alt={member.name} />
                   <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                 </Avatar>
               </div>
-              <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-              <p className="text-sm text-primary mb-4">{member.role}</p>
-              <Separator className="mb-4" />
+              <h3 className="text-xl font-semibold ">{member.name}</h3>
+              <p className="text-sm text-primary ">{member.role}</p>
+              <Separator className="mb-2" />
               <p className="text-muted-foreground flex-grow">{member.bio}</p>
-              <div className="flex justify-center gap-4 mt-6">
-                <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
+              <div className="flex justify-center gap-4 mt-1">
+                <a  target="_blank"
+  rel="noopener noreferrer"  href={member.twitter}>
+                      <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
                   <Twitter className="h-5 w-5" />
                 </Button>
+                </a>
+          
+                <a  target="_blank"
+  rel="noopener noreferrer" href={member.linkedin}>
                 <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
                   <Linkedin className="h-5 w-5" />
                 </Button>
+                </a>
+                <a  target="_blank"
+  rel="noopener noreferrer" href={member.github}>
                 <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
-                  <Mail className="h-5 w-5" />
-                </Button>
+                  <GithubIcon className="h-5 w-5" />
+                </Button></a>
               </div>
             </Card>
           ))}
@@ -224,15 +241,21 @@ export default function AboutPage() {
                 <p>hello@yourblog.com</p>
               </div>
               <div className="flex gap-4">
-                <Button variant="outline" size="icon" className="rounded-full">
+                <a  target="_blank"
+  rel="noopener noreferrer" href="https://x.com">
+                <Button variant="ghost" size="icon" className="rounded-full ">
                   <Twitter className="h-5 w-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="rounded-full">
+                </Button></a>
+                <a  target="_blank"
+  rel="noopener noreferrer" href="https://www.instagram.com"> 
+                <Button variant="ghost" size="icon" className="rounded-full ">
                   <Instagram className="h-5 w-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="rounded-full">
+                </Button></a>
+                <a href="https://www.linkedin.com"  target="_blank"
+  rel="noopener noreferrer">
+                <Button variant="ghost" size="icon" className="rounded-full ">
                   <Linkedin className="h-5 w-5" />
-                </Button>
+                </Button></a>
               </div>
             </div>
           </div>
@@ -240,33 +263,33 @@ export default function AboutPage() {
           <Card className="p-6">
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium">
+                <div className="space-y-2 ">
+                  <label htmlFor="name" className="  text-sm font-medium ">
                     Name
                   </label>
-                  <Input id="name" placeholder="Your name" />
+                  <Input id="name" placeholder="Your name" className="mt-2"/>
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium">
                     Email
                   </label>
-                  <Input id="email" type="email" placeholder="Your email" />
+                  <Input id="email" type="email" placeholder="Your email" className="mt-2" />
                 </div>
               </div>
               <div className="space-y-2">
                 <label htmlFor="subject" className="text-sm font-medium">
                   Subject
                 </label>
-                <Input id="subject" placeholder="Message subject" />
+                <Input id="subject" placeholder="Message subject" className="mt-2"/>
               </div>
               <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium">
+                <label htmlFor="message" className="text-sm font-medium ">
                   Message
                 </label>
                 <textarea
                   id="message"
                   rows={5}
-                  className="w-full min-h-[120px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  className=" mt-2 w-full min-h-[120px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="Your message"
                 />
               </div>

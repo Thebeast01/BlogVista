@@ -2,7 +2,9 @@
 import { ArrowRight } from "lucide-react"
 import { Posts } from "../posts/Posts"
 import { Input } from "../ui/input"
+import Link from "next/link"
 export const Landing = () => {
+
   return (
     <div className="bg-background text-primary">
       <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -11,9 +13,11 @@ export const Landing = () => {
           <p className=" text-primary text-xl mb-8 max-w-2xl mx-auto">
             Exploring life&apos;s complexities through words. A collection of stories, insights, and reflections.
           </p>
-          <button className="border-1 border-[var(--border)] rounded-md px-8 py-3 flex items-center mx-auto hover:bg-primary text-foreground hover:text-card transition-colors cursor-pointer">
+<Link href="/readpost">
+            <button className="border-1 border-[var(--border)] rounded-md px-8 py-3 flex items-center mx-auto hover:bg-primary text-foreground hover:text-card transition-colors cursor-pointer">
             Start Reading <ArrowRight className="ml-2" />
           </button>
+</Link>
         </div>
       </div>
 
