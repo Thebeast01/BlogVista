@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import '../styles/_variables.scss';
-@import '../styles/_keyframe-animations.scss';
+@import "../styles/_variables.scss";
+@import "../styles/_keyframe-animations.scss";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -81,7 +81,7 @@
 }
 
 [data-theme="dark"] {
-  --background: #0f1624;
+  --background: #0e0e11;
   --foreground: #f0f4f8;
 
   --card: #141c2b;

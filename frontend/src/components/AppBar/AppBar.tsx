@@ -38,7 +38,7 @@ export const AppBar = () => {
   console.log("user", user);
 
   return (
-    <div className="fixed w-full backdrop-blur-2xl text-primary flex items-center z-[50]  justify-between text-lg font-mono px-8 py-4">
+    <div className="fixed w-full backdrop-blur-2xl  bg-background text-foreground flex items-center z-[50]  justify-between text-lg font-mono px-8 py-4">
 
       <div className="sm:hidden">
         <MobileNav />

@@ -86,7 +86,7 @@ const MainToolbarContent = ({
   onHighlighterClick: () => void
   onLinkClick: () => void
   isMobile: boolean
-  onSubmit:()=>void
+  onSubmit: () => void
 }) => {
   return (
     <>
@@ -238,55 +238,54 @@ export function SimpleEditor() {
       setMobileView("main")
     }
   }, [isMobile, mobileView])
- const handleSubmit = () => {
-  if (editor) {
-    const json = editor.getJSON()
-    console.log("Editor content (JSON):", json)
+  const handleSubmit = () => {
+    if (editor) {
+      const json = editor.getJSON()
+      console.log("Editor content (JSON):", json)
+    }
   }
-}
 
   return (
     <>
-    <EditorContext.Provider value={{ editor }}>
-      <Toolbar
-        ref={toolbarRef}
-        style={
-          isMobile
-            ? {
+      <EditorContext.Provider value={{ editor }} >
+        <Toolbar
+          ref={toolbarRef}
+          style={
+            isMobile
+              ? {
                 bottom: `calc(100% - ${windowSize.height - bodyRect.y}px)`,
               }
-            : {}
-        }
-      >
-        {mobileView === "main" ? (
-          <MainToolbarContent
-            onHighlighterClick={() => setMobileView("highlighter")}
-            onLinkClick={() => setMobileView("link")}
-            isMobile={isMobile}
-             onSubmit={handleSubmit}
-          />
-        ) : (
-          <MobileToolbarContent
-            type={mobileView === "highlighter" ? "highlighter" : "link"}
-            onBack={() => setMobileView("main")}
-          />
-        )}
-      </Toolbar>
+              : {}
+          }
 
-      <div className="content-wrapper">
-        <EditorContent
-          editor={editor}
-          role="presentation"
-          className="simple-editor-content"
-        />
-         <div className="flex justify-end mr-70 mt-10   ">
-        <Button className="h-10 w-20" onClick={handleSubmit}>
-          Submit
-        </Button>
-      </div>
-      </div>
-    </EditorContext.Provider>
-         {/* <Button className="h-10 w-20 " onClick={handleSubmit}>Submit</Button> */}
+        >
+          {mobileView === "main" ? (
+            <MainToolbarContent
+              onHighlighterClick={() => setMobileView("highlighter")}
+              onLinkClick={() => setMobileView("link")}
+              isMobile={isMobile}
+              onSubmit={handleSubmit}
+            />
+          ) : (
+            <MobileToolbarContent
+              type={mobileView === "highlighter" ? "highlighter" : "link"}
+              onBack={() => setMobileView("main")}
+            />
+          )}
+        </Toolbar>
+
+        <div className="content-wrapper h-full w-full ">
+          <EditorContent
+            editor={editor}
+            role="presentation"
+            className="simple-editor-content  "
+          />
+          <div className="flex justify-end mr-70 mt-10   ">
+            <button className="bg-foreground text-background px-6 py-3 rounded-md font-medium " onClick={handleSubmit}>Submit</button>
+          </div>
+        </div>
+      </EditorContext.Provider >
+      {/* <Button className="h-10 w-20 " onClick={handleSubmit}>Submit</Button> */}
     </>
   )
 }
