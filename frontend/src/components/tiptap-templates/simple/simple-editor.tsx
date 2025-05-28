@@ -78,6 +78,7 @@ import "@/components/tiptap-templates/simple/simple-editor.scss"
 
 import axios from "axios"
 import { Input } from "@/components/ui/input"
+import { API_URL } from "@/config"
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -258,7 +259,7 @@ export function SimpleEditor() {
         content: json,
       }
       console.log("Post data to be sent:", data)
-      const response = await axios.post('http://localhost:8000/api/post/createPost', payload,
+      const response = await axios.post(`${API_URL}/post/createPost`, payload,
         {
           withCredentials: true,
         }
