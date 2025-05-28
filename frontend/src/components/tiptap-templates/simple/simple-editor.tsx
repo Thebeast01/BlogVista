@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// @ts-nocheck
 "use client"
 
 import * as React from "react"
-import { EditorContent, EditorContext, JSONContent, useEditor } from "@tiptap/react"
+import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit"

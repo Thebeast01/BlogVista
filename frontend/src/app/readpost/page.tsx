@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import React from 'react';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import Image from 'next/image';
 import axios from 'axios';
 import { API_URL } from '@/config';
@@ -55,9 +54,7 @@ const BlogCard = () => {
             <CardDescription className="text-sm text-secondary-foreground">{blog.description}</CardDescription>
           </CardHeader>
           <CardFooter className="mt-auto">
-            {/* <Link href={`/readpost/${blog.id}`} passHref> */}
             <Button className="w-full" onClick={() => router.push(`/readpost/${blog.id}`)}>Read More</Button>
-            {/* </Link> */}
           </CardFooter>
         </Card>
       ))}

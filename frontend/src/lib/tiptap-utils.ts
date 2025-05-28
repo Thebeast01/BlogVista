@@ -1,7 +1,5 @@
 import type { Attrs, Node } from "@tiptap/pm/model"
 import type { Editor } from "@tiptap/react"
-import axios from "axios"
-import { ProviderProps } from "react-redux"
 export const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
 /**

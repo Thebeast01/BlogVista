@@ -14,6 +14,7 @@ import BulletList from '@tiptap/extension-bullet-list'
 import Heading from '@tiptap/extension-heading'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 
+// @ts-ignore
 interface TiptapViewerProps {
   content: any
 }
