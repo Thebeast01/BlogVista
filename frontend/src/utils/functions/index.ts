@@ -3,7 +3,7 @@ import { API_URL } from '@/config';
 export const fetchPostsById = async (id: string) => {
   try {
 
-    const response = await axios.get(`${API_URL}blog/getPostById/${id}`, { withCredentials: true });
+    const response = await axios.get(`${API_URL}/blog/getPostById/${id}`, { withCredentials: true });
     if (response.status === 200) {
       return response.data;
     } else {

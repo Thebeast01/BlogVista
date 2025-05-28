@@ -20,7 +20,7 @@ export default function ResetPassword() {
     }
     try {
       console.log("This is phone number", phone)
-      const response = await axios.post(`${API_URL}auth/resetPassword`,
+      const response = await axios.post(`${API_URL}/auth/resetPassword`,
         { phoneNumber: phone, newPassword: newpass },
         { withCredentials: true })
       if (response.status === 200) {

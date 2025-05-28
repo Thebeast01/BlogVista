@@ -35,7 +35,7 @@ export default function OTPLogin() {
 
     try {
       const response = await axios.post(
-        `${API_URL}auth/verifyOtp`,
+        `${API_URL}/auth/verifyOtp`,
         { totp, phoneNumber },
         { withCredentials: true }
       );

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import {API_URL} from "@/config";
+import { API_URL } from "@/config";
 export default function Reset() {
   const [countryCode, setCountryCode] = useState("+91");
   const [number, setnumber] = useState("")
@@ -22,7 +22,7 @@ export default function Reset() {
   const phonenumber = async (phone: string) => {
     console.log("Phone", phone)
     try {
-      const response = await axios.post(`${API_URL}auth/sendOtp`,
+      const response = await axios.post(`${API_URL}/auth/sendOtp`,
         { phoneNumber: phone },
         { withCredentials: true })
       if (response.status === 200) {

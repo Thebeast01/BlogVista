@@ -31,7 +31,7 @@ const Login = () => {
     e.preventDefault();
     try {
       console.log("login input", loginInput)
-      const response = await axios.post<LoginResponse>(`${API_URL}auth/login`, loginInput, {
+      const response = await axios.post<LoginResponse>(`${API_URL}/auth/login`, loginInput, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
