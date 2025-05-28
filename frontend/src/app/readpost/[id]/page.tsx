@@ -16,7 +16,7 @@ export default function UserPost() {
 
     const fetchPost = async () => {
       try {
-        const res = await fetch(`${API_URL}post/getPostById/${id}`, {
+        const res = await fetch(`${API_URL}/post/getPostById/${id}`, {
           credentials: 'include',
         });
 
