@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEditor, EditorContent } from '@tiptap/react'
+
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Highlight from '@tiptap/extension-highlight'
@@ -14,7 +16,6 @@ import BulletList from '@tiptap/extension-bullet-list'
 import Heading from '@tiptap/extension-heading'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 
-// @ts-ignore
 interface TiptapViewerProps {
   content: any
 }
