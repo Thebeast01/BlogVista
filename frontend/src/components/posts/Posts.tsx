@@ -17,7 +17,7 @@ export const Posts = () => {
   const getAllBlog = async () => {
     try {
 
-      const response: any = await axios.get(`${API_URL}/post/getAllPosts`, {
+      const response: any = await axios.get(`${API_URL}post/getAllPosts`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
+import { EditorContent, EditorContext, JSONContent, useEditor } from "@tiptap/react"
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit"
@@ -75,7 +75,8 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
-import content from "@/components/tiptap-templates/simple/data/content.json"
+import axios from "axios"
+import { Input } from "@/components/ui/input"
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -183,9 +184,18 @@ const MobileToolbarContent = ({
     )}
   </>
 )
-
+interface PostData {
+  title: string;
+  content: any;
+  coverImage?: any
+}
 export function SimpleEditor() {
   const isMobile = useMobile()
+  const [data, setData] = React.useState<PostData>({
+    title: '',
+    content: null,
+    coverImage: null,
+  })
   const windowSize = useWindowSize()
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link"
@@ -225,7 +235,7 @@ export function SimpleEditor() {
       TrailingNode,
       Link.configure({ openOnClick: false }),
     ],
-    content: content,
+    content: data.content,
   })
 
   const bodyRect = useCursorVisibility({
@@ -238,16 +248,39 @@ export function SimpleEditor() {
       setMobileView("main")
     }
   }, [isMobile, mobileView])
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (editor) {
       const json = editor.getJSON()
       console.log("Editor content (JSON):", json)
+      const payload = {
+        ...data,
+        content: json,
+      }
+      console.log("Post data to be sent:", data)
+      const response = await axios.post('http://localhost:8000/api/post/createPost', payload,
+        {
+          withCredentials: true,
+        }
+      )
+      console.log("Response from server:", response.data)
+      if (response.status === 201) {
+        console.log("Post created successfully")
+      } else {
+        console.error("Failed to create post:", response.data)
+      }
+
     }
   }
 
   return (
     <>
       <EditorContext.Provider value={{ editor }} >
+        <div className="flex justify-between px-8 gap-4 items-center w-full my-2">
+          <div className="flex flex-col w-full  gap-2 ">
+            <Input type="text" placeholder="Title of the article" className=" mx-auto border-1 border-neutral-500 placeholder:text-2xl placeholder:font-serif placeholder:font-medium  max-w-2xl py-2  h-14 " onChange={(e) => setData({ ...data, title: e.target.value })} />
+          </div>
+          <button className="bg-foreground text-background px-6 py-3 rounded-md font-medium " onClick={handleSubmit}>Submit</button>
+        </div>
         <Toolbar
           ref={toolbarRef}
           style={
@@ -280,9 +313,6 @@ export function SimpleEditor() {
             role="presentation"
             className="simple-editor-content  "
           />
-          <div className="flex justify-end mr-70 mt-10   ">
-            <button className="bg-foreground text-background px-6 py-3 rounded-md font-medium " onClick={handleSubmit}>Submit</button>
-          </div>
         </div>
       </EditorContext.Provider >
       {/* <Button className="h-10 w-20 " onClick={handleSubmit}>Submit</Button> */}

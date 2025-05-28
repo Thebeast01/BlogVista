@@ -5,8 +5,7 @@ export interface ModelProps {
 export interface blogInterface {
   title: string;
   id: string;
-  description: string;
+  content: JSON;
   authorId: string;
-
   createdAt: string;
 }

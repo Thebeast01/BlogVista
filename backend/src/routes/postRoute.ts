@@ -1,6 +1,10 @@
 import { Router } from "express";
-import { getAllPosts } from "../controllers/posts/postController";
+import { createPost, getAllPosts } from "../controllers/posts/postController";
 import { authMiddleware } from "../middleware/authMiddleware";
+import { getPostById } from "../controllers/posts/postController";
 const blogRouter = Router();
-blogRouter.get("/getAllPosts", authMiddleware, getAllPosts)
+blogRouter.use(authMiddleware);
+blogRouter.get("/getAllPosts", getAllPosts)
+blogRouter.post("/createPost", createPost)
+blogRouter.get("/getPostById/:id", getPostById)
 export default blogRouter;

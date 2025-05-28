@@ -1,73 +1,45 @@
+'use client';
+import { useEffect } from 'react';
 import React from 'react';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
-
+import axios from 'axios';
+import { API_URL } from '@/config';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { blogInterface } from '@/utils/interface/interface';
 const BlogCard = () => {
+  const router = useRouter();
+  const [blogs, setBlogs] = useState<blogInterface[]>([]);
+  console.log(blogs)
+  const getAllBlog = async () => {
+    try {
 
-  const blogs = [
-    {
-      id: 1,
-      title: "Getting Started with Next.js",
-      description: "Learn the basics of Next.js and how to create your first application with this powerful React framework.",
-      image: "",
-      slug: "getting-started-with-nextjs"
-    },
-    {
-      id: 2,
-      title: "Understanding Tailwind CSS",
-      description: "Explore how Tailwind CSS can transform your workflow and make styling your applications easier and more consistent.",
-      image: "",
-      slug: "understanding-tailwind-css"
-    },
-    {
-      id: 3,
-      title: "Building UI Components with shadcn/ui",
-      description: "Discover how to use shadcn/ui to create beautiful, accessible components for your Next.js applications.",
-      image: "",
-      slug: "building-ui-components-with-shadcn"
-    },
-    {
-      id: 4,
-      title: "Server Components in Next.js",
-      description: "Dive deep into server components and learn how they can improve performance in your Next.js applications.",
-      image: "/api/placeholder/800/500",
-      slug: "server-components-in-nextjs"
-    },
-    {
-      id: 1,
-      title: "Getting Started with Next.js",
-      description: "Learn the basics of Next.js and how to create your first application with this powerful React framework.",
-      image: "",
-      slug: "getting-started-with-nextjs"
-    },
-    {
-      id: 2,
-      title: "Understanding Tailwind CSS",
-      description: "Explore how Tailwind CSS can transform your workflow and make styling your applications easier and more consistent.",
-      image: "",
-      slug: "understanding-tailwind-css"
-    },
-    {
-      id: 3,
-      title: "Building UI Components with shadcn/ui",
-      description: "Discover how to use shadcn/ui to create beautiful, accessible components for your Next.js applications.",
-      image: "",
-      slug: "building-ui-components-with-shadcn"
-    },
-    {
-      id: 4,
-      title: "Server Components in Next.js",
-      description: "Dive deep into server components and learn how they can improve performance in your Next.js applications.",
-      image: "/api/placeholder/800/500",
-      slug: "server-components-in-nextjs"
+      const response: any = await axios.get(`${API_URL}post/getAllPosts`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      if (!response.data || response.data?.length === 0) {
+        console.log("No blogs found")
+        return
+      }
+      setBlogs(response?.data.post)
+      console.log(response)
+
+    } catch (err) {
+      console.log(err)
     }
-  ];
-
+  }
+  useEffect(() => {
+    getAllBlog()
+  }, [])
   return (
     <div className="grid grid-cols-1 border-1 border-border relative  bg-background md:grid-cols-2 lg:grid-cols-4 gap-6 pt-30 p-4">
-      {blogs.map((blog) => (
+      {blogs.map((blog: any) => (
         <Card key={blog.id} className="overflow-hidden bg-card transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
           <div className="h-48 overflow-hidden rounded-md">
             <Image
@@ -83,9 +55,9 @@ const BlogCard = () => {
             <CardDescription className="text-sm text-secondary-foreground">{blog.description}</CardDescription>
           </CardHeader>
           <CardFooter className="mt-auto">
-            <Link href={`/readpost/${blog.id}`} passHref>
-              <Button className="w-full">Read More</Button>
-            </Link>
+            {/* <Link href={`/readpost/${blog.id}`} passHref> */}
+            <Button className="w-full" onClick={() => router.push(`/readpost/${blog.id}`)}>Read More</Button>
+            {/* </Link> */}
           </CardFooter>
         </Card>
       ))}

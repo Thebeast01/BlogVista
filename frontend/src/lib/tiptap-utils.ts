@@ -1,6 +1,7 @@
 import type { Attrs, Node } from "@tiptap/pm/model"
 import type { Editor } from "@tiptap/react"
-
+import axios from "axios"
+import { ProviderProps } from "react-redux"
 export const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
 /**
@@ -143,7 +144,7 @@ export const handleImageUpload = async (
   if (!file) {
     throw new Error("No file provided")
   }
-
+  console.log("File to upload:", file)
   if (file.size > MAX_FILE_SIZE) {
     throw new Error(
       `File size exceeds maximum allowed (${MAX_FILE_SIZE / (1024 * 1024)}MB)`
@@ -158,11 +159,8 @@ export const handleImageUpload = async (
     await new Promise((resolve) => setTimeout(resolve, 500))
     onProgress?.({ progress })
   }
-
-  return "/images/placeholder-image.png"
-
   // Uncomment for production use:
-  // return convertFileToBase64(file, abortSignal);
+  return convertFileToBase64(file, abortSignal);
 }
 
 /**
