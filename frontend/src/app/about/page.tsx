@@ -47,7 +47,7 @@ export default function AboutPage() {
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${API_URL}mail/send`, sendMailData)
+      const response = await axios.post(`${API_URL}/mail/send`, sendMailData)
       if (response.status === 200) {
         Swal.fire({
           title: "Message Sent",
