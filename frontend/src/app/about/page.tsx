@@ -45,6 +45,7 @@ export default function AboutPage() {
     teamref.current?.scrollIntoView({ behavior: "smooth" })
   }
   const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault()
     try {
       const response = await axios.post(`${API_URL}mail/send`, sendMailData)
       if (response.status === 200) {
