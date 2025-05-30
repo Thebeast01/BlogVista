@@ -5,6 +5,7 @@ import cors from 'cors';
 import authRouter from './routes/authRoute';
 import blogRouter from './routes/postRoute';
 import redisClient from './utils/redis';
+import mailRouter from './routes/mail';
 dotenv.config()
 const app = express();
 app.use(express.json(
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 })
 app.use('/api/auth', authRouter)
 app.use('/api/post', blogRouter)
+app.use('/api/mail', mailRouter)
 redisClient.ping().then(() => {
   console.log("Redis is connected")
   app.listen(process.env.PORT, () => {

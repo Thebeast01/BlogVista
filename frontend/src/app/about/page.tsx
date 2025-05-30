@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-// import Link from "next/link";
+import { API_URL } from "@/config/index";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -17,11 +17,18 @@ import {
   ChevronDown,
   Mail
 } from "lucide-react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 
 export default function AboutPage() {
   const [scrollY, setScrollY] = useState(0);
-
+  const [sendMailData, setSendMailData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  })
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -32,12 +39,31 @@ export default function AboutPage() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
- const teamref=useRef<HTMLDivElement>(null)
- 
- const handlescroltoteam=()=>{
-  teamref.current?.scrollIntoView({behavior:"smooth"})
- }
+  const teamref = useRef<HTMLDivElement>(null)
 
+  const handlescroltoteam = () => {
+    teamref.current?.scrollIntoView({ behavior: "smooth" })
+  }
+  const handleSendMessage = async (e: React.FormEvent) => {
+    try {
+      const response = await axios.post(`${API_URL}mail/send`, sendMailData)
+      if (response.status === 200) {
+        Swal.fire({
+          title: "Message Sent",
+          text: "Your message has been sent successfully!",
+          icon: "success",
+        })
+        setSendMailData({
+          name: "",
+          email: "",
+          subject: "",
+          message: ""
+        });
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  }
   return (
     <main className="min-h-screen  ">
       {/* Hero Section */}
@@ -61,7 +87,7 @@ export default function AboutPage() {
             Discover the passion and purpose that drives our digital ink
           </p>
           <Button
-          onClick={handlescroltoteam}
+            onClick={handlescroltoteam}
             variant="secondary"
             size="lg"
             className="group animate-in fade-in slide-in-from-bottom-8 text-foreground duration-1000 delay-300"
@@ -120,18 +146,18 @@ export default function AboutPage() {
               role: "Backend Developer",
               bio: "saif  built a robust backend system, handling data flow and server logic with precision and reliability.",
               avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              linkedin:"https://www.linkedin.com/in/mohammad-saif01",
-              twitter:"https://x.com/_beast0",
-              github:"https://github.com/Thebeast01"
+              linkedin: "https://www.linkedin.com/in/mohammad-saif01",
+              twitter: "https://x.com/_beast0",
+              github: "https://github.com/Thebeast01"
             },
             {
               name: "Shailja yadav ",
               role: "Frontend developer",
               bio: "shailja crafted an intuitive and responsive UI, ensuring a smooth and engaging user experience",
               avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              linkedin:"https://www.linkedin.com/in/shailja-yadav-643853252/",
-              twitter:"https://x.com/Shailja5911",
-              github:"https://github.com/shailjayadav30",
+              linkedin: "https://www.linkedin.com/in/shailja-yadav-643853252/",
+              twitter: "https://x.com/Shailja5911",
+              github: "https://github.com/shailjayadav30",
             }
           ].map((member, index) => (
             <Card key={index} className="  bg-card group p-6 hover:shadow-md transition-all duration-300 text-center h-full flex flex-col">
@@ -146,24 +172,24 @@ export default function AboutPage() {
               <Separator className="mb-2" />
               <p className="text-muted-foreground flex-grow">{member.bio}</p>
               <div className="flex justify-center gap-4 mt-1">
-                <a  target="_blank"
-  rel="noopener noreferrer"  href={member.twitter}>
-                      <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
-                  <Twitter className="h-5 w-5" />
-                </Button>
+                <a target="_blank"
+                  rel="noopener noreferrer" href={member.twitter}>
+                  <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
+                    <Twitter className="h-5 w-5" />
+                  </Button>
                 </a>
-          
-                <a  target="_blank"
-  rel="noopener noreferrer" href={member.linkedin}>
-                <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
-                  <Linkedin className="h-5 w-5" />
-                </Button>
+
+                <a target="_blank"
+                  rel="noopener noreferrer" href={member.linkedin}>
+                  <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
+                    <Linkedin className="h-5 w-5" />
+                  </Button>
                 </a>
-                <a  target="_blank"
-  rel="noopener noreferrer" href={member.github}>
-                <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
-                  <GithubIcon className="h-5 w-5" />
-                </Button></a>
+                <a target="_blank"
+                  rel="noopener noreferrer" href={member.github}>
+                  <Button variant="ghost" size="icon" className="rounded-full hover:text-primary">
+                    <GithubIcon className="h-5 w-5" />
+                  </Button></a>
               </div>
             </Card>
           ))}
@@ -241,21 +267,21 @@ export default function AboutPage() {
                 <p>hello@yourblog.com</p>
               </div>
               <div className="flex gap-4">
-                <a  target="_blank"
-  rel="noopener noreferrer" href="https://x.com">
-                <Button variant="ghost" size="icon" className="rounded-full ">
-                  <Twitter className="h-5 w-5" />
-                </Button></a>
-                <a  target="_blank"
-  rel="noopener noreferrer" href="https://www.instagram.com"> 
-                <Button variant="ghost" size="icon" className="rounded-full ">
-                  <Instagram className="h-5 w-5" />
-                </Button></a>
-                <a href="https://www.linkedin.com"  target="_blank"
-  rel="noopener noreferrer">
-                <Button variant="ghost" size="icon" className="rounded-full ">
-                  <Linkedin className="h-5 w-5" />
-                </Button></a>
+                <a target="_blank"
+                  rel="noopener noreferrer" href="https://x.com">
+                  <Button variant="ghost" size="icon" className="rounded-full ">
+                    <Twitter className="h-5 w-5" />
+                  </Button></a>
+                <a target="_blank"
+                  rel="noopener noreferrer" href="https://www.instagram.com">
+                  <Button variant="ghost" size="icon" className="rounded-full ">
+                    <Instagram className="h-5 w-5" />
+                  </Button></a>
+                <a href="https://www.linkedin.com" target="_blank"
+                  rel="noopener noreferrer">
+                  <Button variant="ghost" size="icon" className="rounded-full ">
+                    <Linkedin className="h-5 w-5" />
+                  </Button></a>
               </div>
             </div>
           </div>
@@ -267,20 +293,20 @@ export default function AboutPage() {
                   <label htmlFor="name" className="  text-sm font-medium ">
                     Name
                   </label>
-                  <Input id="name" placeholder="Your name" className="mt-2"/>
+                  <Input id="name" placeholder="Your name" className="mt-2" name="name" value={sendMailData.name} onChange={(e) => setSendMailData({ ...sendMailData, name: e.target.value })} />
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium">
                     Email
                   </label>
-                  <Input id="email" type="email" placeholder="Your email" className="mt-2" />
+                  <Input id="email" type="email" placeholder="Your email" className="mt-2" value={sendMailData.email} onChange={(e) => setSendMailData({ ...sendMailData, email: e.target.value })} />
                 </div>
               </div>
               <div className="space-y-2">
                 <label htmlFor="subject" className="text-sm font-medium">
                   Subject
                 </label>
-                <Input id="subject" placeholder="Message subject" className="mt-2"/>
+                <Input id="subject" placeholder="Message subject" className="mt-2" value={sendMailData.subject} onChange={(e) => setSendMailData({ ...sendMailData, subject: e.target.value })} />
               </div>
               <div className="space-y-2">
                 <label htmlFor="message" className="text-sm font-medium ">
@@ -288,12 +314,14 @@ export default function AboutPage() {
                 </label>
                 <textarea
                   id="message"
+                  value={sendMailData.message}
                   rows={5}
                   className=" mt-2 w-full min-h-[120px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   placeholder="Your message"
+                  onChange={(e) => setSendMailData({ ...sendMailData, message: e.target.value })}
                 />
               </div>
-              <Button className="w-full">Send Message</Button>
+              <Button className="w-full" onClick={handleSendMessage}>Send Message</Button>
             </div>
           </Card>
         </div>
