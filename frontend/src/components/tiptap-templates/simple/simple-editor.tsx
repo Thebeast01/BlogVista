@@ -79,6 +79,7 @@ import "@/components/tiptap-templates/simple/simple-editor.scss"
 import axios from "axios"
 import { Input } from "@/components/ui/input"
 import { API_URL } from "@/config"
+import Swal from "sweetalert2"
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -259,6 +260,7 @@ export function SimpleEditor() {
         content: json,
       }
       console.log("Post data to be sent:", data)
+
       const response = await axios.post(`${API_URL}/post/createPost`, payload,
         {
           withCredentials: true,
@@ -266,6 +268,12 @@ export function SimpleEditor() {
       )
       console.log("Response from server:", response.data)
       if (response.status === 201) {
+        Swal.fire({
+          title: "Post Created",
+          text: "Your post has been created successfully.",
+          icon: "success",
+          confirmButtonText: "OK",
+        })
         console.log("Post created successfully")
       } else {
         console.error("Failed to create post:", response.data)
