@@ -10,6 +10,7 @@ import { API_URL } from '@/config';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { blogInterface } from '@/utils/interface/interface';
+import Loading from '../loading';
 const BlogCard = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -42,8 +43,8 @@ const BlogCard = () => {
   return (
     <div className="grid grid-cols-1 border-1 border-border relative  bg-background md:grid-cols-2 lg:grid-cols-4 gap-6 pt-30 p-4">
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background">
-          <p className="text-lg text-secondary-foreground">Loading...</p>
+        <div className="absolute inset-0 flex items-center justify-center bg-background z-10">
+          <Loading />
         </div>
       )}
       {blogs.map((blog: any) => (
