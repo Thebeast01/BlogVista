@@ -14,23 +14,19 @@ export const getAllPosts = async (req: any, res: Response) => {
         authorId: id,
       }
     })
-    if (!post) {
-      res.status(404).json({ message: "Post not found" });
 
-    }
     res.status(200).json({
-      message: "Post found",
+      message: post.length ? "Post found" : "No posts found",
       post
     })
   } catch (e) {
+    console.error("Error fetching posts:", e);
     res.status(500).json({ message: "Internal server error" });
   }
 }
 export const getPostById = async (req: any, res: Response) => {
   const id = req.id;
   const postId = req.params.id;
-  console.log("ID", id)
-  console.log("Post ID", postId)
   try {
     const post = await prisma.post.findUnique({
       where: {
@@ -51,7 +47,9 @@ export const getPostById = async (req: any, res: Response) => {
   }
 }
 export const createPost = async (req: any, res: Response) => {
+
   try {
+    const startTime = Date.now();
     const id = req.id;
 
     const { title, content } = req.body;
@@ -76,9 +74,11 @@ export const createPost = async (req: any, res: Response) => {
 
 
     })
+    const endTime = Date.now() - startTime;
     res.status(201).json({
       message: "Post created successfully",
-      post
+      post,
+      endTime
     });
 
   } catch (error) {

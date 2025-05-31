@@ -50,8 +50,6 @@ const Login = () => {
         title: "Login Success",
         showConfirmButton: false,
         timer: 1500,
-
-
       });
       if (!response) {
         return;
