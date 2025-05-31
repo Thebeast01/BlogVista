@@ -6,7 +6,7 @@ export const sidebarLinks = [
 
   }, {
     label: "Read Posts",
-    route: "/read",
+    route: "/readpost",
 
   }, {
     label: "Write Posts",

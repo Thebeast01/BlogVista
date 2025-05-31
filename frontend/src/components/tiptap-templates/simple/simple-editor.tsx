@@ -190,14 +190,14 @@ const MobileToolbarContent = ({
 interface PostData {
   title: string;
   content: any;
-  coverImage?: any
+  coverImg?: any
 }
 export function SimpleEditor() {
   const isMobile = useMobile()
   const [data, setData] = React.useState<PostData>({
     title: '',
     content: null,
-    coverImage: null,
+    coverImg: null,
   })
   const windowSize = useWindowSize()
   const [mobileView, setMobileView] = React.useState<
@@ -254,16 +254,25 @@ export function SimpleEditor() {
   const handleSubmit = async () => {
     if (editor) {
       const json = editor.getJSON()
-      console.log("Editor content (JSON):", json)
+      console.log("Data of the :", data)
       const payload = {
         ...data,
         content: json,
       }
-      console.log("Post data to be sent:", data)
+      const formData = new FormData();
+      formData.append("title", payload.title);
+      formData.append("content", JSON.stringify(payload.content));
+      if (payload.coverImg) {
+        formData.append("coverImg", payload.coverImg);
+      }
+      console.log("Payload to be sent:", payload);
 
-      const response = await axios.post(`${API_URL}/post/createPost`, payload,
+      const response = await axios.post(`${API_URL}/post/createPost`, formData,
         {
           withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       )
       console.log("Response from server:", response.data)
@@ -282,17 +291,52 @@ export function SimpleEditor() {
     }
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    console.log("Selected file:", selectedFile);
+
+    if (!selectedFile) {
+      console.warn('No file selected');
+      return;
+    }
+
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
+
+    if (!allowedTypes.includes(selectedFile.type)) {
+      alert('Only PNG, JPEG, or WEBP files are allowed.');
+      return;
+    }
+
+
+
+    // Update state
+    setData(prev => ({
+      ...prev,
+      coverImg: selectedFile
+    }));
+  };
   return (
     <>
       <EditorContext.Provider value={{ editor }} >
-        <div className="flex justify-between px-8 gap-4 items-center w-full my-2">
+        <div className="flex flex-col md:flex-row justify-between px-8 gap-4 items-center w-full my-2">
           <div className="flex flex-col w-full  gap-2 ">
             <Input type="text" placeholder="Title of the article" className=" mx-auto border-1 border-neutral-500 placeholder:text-2xl placeholder:font-serif placeholder:font-medium  max-w-2xl py-2  h-14 " onChange={(e) => setData({ ...data, title: e.target.value })} />
           </div>
-          <button className="bg-foreground text-background px-6 py-3 rounded-md font-medium " onClick={handleSubmit}>Submit</button>
+          <div className="flex  gap-3 items-center">
+            <label className="inline-block cursor-pointer  min-w-54 bg-black text-white px-4 py-3 rounded-md hover:bg-neutral-900 transition duration-200">
+              Choose Cover Image
+              <input
+                type="file"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </label>
+            <button className="bg-foreground text-background px-6 py-3 rounded-md font-medium " onClick={handleSubmit}>Submit</button>
+          </div>
         </div>
         <Toolbar
           ref={toolbarRef}
+          className={`tiptap-toolbar ${isMobile ? "mobile" : ""}`}
           style={
             isMobile
               ? {

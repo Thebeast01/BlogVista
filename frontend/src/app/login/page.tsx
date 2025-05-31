@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/store/features/auth/authSlice";
 import { API_URL } from "@/config";
 import Loading from "../loading";
+import { finished } from "stream";
 
 type LoginResponse = {
   message: string;
@@ -69,6 +70,8 @@ const Login = () => {
         icon: "error",
       });
 
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -77,7 +80,9 @@ const Login = () => {
     <div className="h-screen  flex bg-background items-center justify-center ">
       {
         isLoading && (
-          <Loading />
+          <div className="absolute inset-0 flex items-center justify-center bg-background z-10">
+            <Loading />
+          </div>
         )
       }
       <div className=" border-border border-1 bg-background    shadow-md shadow-muted p-4 rounded-lg w-[400px] relative " >

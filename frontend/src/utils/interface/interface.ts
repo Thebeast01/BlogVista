@@ -6,6 +6,7 @@ export interface blogInterface {
   title: string;
   id: string;
   content: JSON;
+  coverImg: string;
   authorId: string;
   createdAt: string;
 }

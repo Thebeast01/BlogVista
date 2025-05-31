@@ -2,6 +2,7 @@
 'use client';
 import { useEffect } from 'react';
 import React from 'react';
+import { Trash2 } from 'lucide-react';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -11,6 +12,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { blogInterface } from '@/utils/interface/interface';
 import Loading from '../loading';
+import Swal from 'sweetalert2';
 const BlogCard = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -40,10 +42,34 @@ const BlogCard = () => {
   useEffect(() => {
     getAllBlog()
   }, [])
+  const handleDelete = async (id: string) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.delete(`${API_URL}/post/deletePost/${id}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      setIsLoading(false);
+      if (response.status === 200) {
+        setBlogs(blogs.filter(blog => blog.id !== id));
+        Swal.fire({
+          icon: 'success',
+          title: 'Blog Deleted Successfully',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    } catch (err) {
+      console.error("Error deleting blog:", err);
+      setIsLoading(false);
+    }
+  }
   return (
     <div className="grid grid-cols-1 border-1 border-border relative  bg-background md:grid-cols-2 lg:grid-cols-4 gap-6 pt-30 p-4">
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background z-10">
+        <div className="absolute h-screen inset-0 flex items-center justify-center bg-background z-10">
           <Loading />
         </div>
       )}
@@ -62,8 +88,10 @@ const BlogCard = () => {
             <CardTitle className="text-foreground text-xl font-bold">{blog.title}</CardTitle>
             <CardDescription className="text-sm text-secondary-foreground">{blog.description}</CardDescription>
           </CardHeader>
-          <CardFooter className="mt-auto">
-            <Button className="w-full" onClick={() => router.push(`/readpost/${blog.id}`)}>Read More</Button>
+          <CardFooter className="mt-auto w-full flex items-center justify-between">
+            <Button className="" onClick={() => router.push(`/readpost/${blog.id}`)}>Read More</Button>
+            <Button className="" variant="destructive" onClick={() => handleDelete(blog.id)}>
+              <Trash2 /> </Button>
           </CardFooter>
         </Card>
       ))}

@@ -9,6 +9,7 @@ import redisClient from "../../utils/redis";
 const jwtSecret = process.env.JWT_SECRET
 export const registerUser = async (req: Request, res: Response) => {
   const localImagePath = req.file?.path;
+  console.log("localImagePath", localImagePath);
   const imageUrl = await uploadImageOnCloudinary(localImagePath);
   try {
     const body = req.body;
@@ -17,7 +18,7 @@ export const registerUser = async (req: Request, res: Response) => {
       return
     }
 
-    if (!body.email || !body.password || !body.username) {
+    if (!body.email || !body.password || !body.username || !body.phoneNumber) {
       res.status(400).json({ message: "Email and password and Username are required" });
       return
     }
@@ -42,19 +43,19 @@ export const registerUser = async (req: Request, res: Response) => {
       res.status(400).json({ message: "Image upload failed", });
       return
     }
-    const profileUrl = imageUrl;
+    const profileUrl = imageUrl.url;
+    console.log("profileUrl", profileUrl);
     const newUser = await prisma.user.create({
       data: {
         email: body.email,
         phoneNumber: body.phoneNumber,
         password: hashedPassword,
         username: body.username,
-        profilePicture: profileUrl.url,
+        profilePicture: profileUrl,
       }
     })
     res.status(200).json({
       message: "User created successfully",
-
       newUser
     })
   } catch (error) {

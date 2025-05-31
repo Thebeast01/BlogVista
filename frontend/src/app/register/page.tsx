@@ -7,10 +7,12 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Loading from "../loading";
 const Register = () => {
   const [registerInput, setRegisterInput] = useState({
     username: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
   });
@@ -18,9 +20,9 @@ const Register = () => {
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const [profilePicture, setProfilePicture] = useState<File | null>(null); // State for the profile picture file
   const [previewUrl, setPreviewUrl] = useState<string | null>(null); // State for the preview URL
-
-  // Handle profile picture upload
+  const [isLoading, setIsLoading] = useState(false);
   const handleProfilePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     const file = e.target.files?.[0];
     if (file) {
       // Validate file type (optional)
@@ -49,14 +51,10 @@ const Register = () => {
       }
 
       setProfilePicture(file);
-
-      // Create a preview URL for the image
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
     }
   };
-
-  // Clean up preview URL to avoid memory leaks
   const revokePreviewUrl = () => {
     if (previewUrl) {
       URL.revokeObjectURL(previewUrl);
@@ -82,13 +80,15 @@ const Register = () => {
       const formData = new FormData();
       formData.append("username", registerInput.username);
       formData.append("email", registerInput.email);
+      formData.append("phoneNumber", registerInput.phoneNumber);
       formData.append("password", registerInput.password);
       if (profilePicture) {
         formData.append("profile", profilePicture); // Ensure the backend expects this field name
       }
 
+      setIsLoading(true);
       console.log("FormData:", formData);
-      const response = await axios.post(`${API_URL}auth/register`, formData, {
+      const response = await axios.post(`${API_URL}/auth/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data", // Required for file uploads
         },
@@ -102,10 +102,13 @@ const Register = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        router.push("/login");
         revokePreviewUrl(); // Clean up preview URL
         setProfilePicture(null); // Reset profile picture state
       }
+      setIsLoading(false);
     } catch (e) {
+      setIsLoading(false);
       console.log("error", e);
       Swal.fire({
         title: "Error!",
@@ -114,10 +117,18 @@ const Register = () => {
         timer: 1500,
         showConfirmButton: false,
       });
+    } finally {
+      revokePreviewUrl();
+      setProfilePicture(null);
     }
   };
   return (
     <div className="h-screen  flex bg-background items-center justify-center ">
+      {isLoading && (
+        <div className="absolute h-screen inset-0 flex items-center justify-center bg-background z-10">
+          <Loading />
+        </div>
+      )}
       <div className="bg-muted  p-8 rounded-lg shadow-md shadow-card w-[400px] relative">
         <h1 className="text-2xl font-bold text-foreground text-center">
           Register
@@ -139,6 +150,14 @@ const Register = () => {
             className="w-full rounded-md px-2 py-5 text-accent-foreground"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setRegisterInput({ ...registerInput, email: e.target.value })
+            }
+          />
+          <Input
+            type="text"
+            placeholder="Email"
+            className="w-full rounded-md px-2 py-5 text-accent-foreground"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setRegisterInput({ ...registerInput, phoneNumber: e.target.value })
             }
           />
           <PasswordInput

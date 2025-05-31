@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 app.use('/api/auth', authRouter)
 app.use('/api/post', blogRouter)
 app.use('/api/mail', mailRouter)
+
 redisClient.ping().then(() => {
   console.log("Redis is connected")
   app.listen(process.env.PORT, () => {
