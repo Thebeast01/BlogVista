@@ -15,7 +15,7 @@ const Register = () => {
     confirmPassword: "",
   });
   const router = useRouter();
-  const API_URL = process.env.NEXT_BACKEND_URL || "http://localhost:8000/api/";
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const [profilePicture, setProfilePicture] = useState<File | null>(null); // State for the profile picture file
   const [previewUrl, setPreviewUrl] = useState<string | null>(null); // State for the preview URL
 
