@@ -10,8 +10,6 @@ import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/store/features/auth/authSlice";
 import { API_URL } from "@/config";
 import Loading from "../loading";
-import { finished } from "stream";
-
 type LoginResponse = {
   message: string;
   user: {
