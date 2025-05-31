@@ -9,6 +9,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/store/features/auth/authSlice";
 import { API_URL } from "@/config";
+import Loading from "../loading";
 
 type LoginResponse = {
   message: string;
@@ -20,6 +21,7 @@ type LoginResponse = {
   };
 };
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [loginInput, setLoginInput] = useState({
     userData: "",
     password: "",
@@ -31,12 +33,14 @@ const Login = () => {
     e.preventDefault();
     try {
       console.log("login input", loginInput)
+      setIsLoading(true);
       const response = await axios.post<LoginResponse>(`${API_URL}/auth/login`, loginInput, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
       });
+      setIsLoading(false);
       if (response.status !== 200) {
         Swal.fire({
           title: "Error!",
@@ -71,6 +75,11 @@ const Login = () => {
 
   return (
     <div className="h-screen  flex bg-background items-center justify-center ">
+      {
+        isLoading && (
+          <Loading />
+        )
+      }
       <div className=" border-border border-1 bg-background    shadow-md shadow-muted p-4 rounded-lg w-[400px] relative " >
 
         <h1 className="text-2xl font-bold text-primary text-center">Login</h1>

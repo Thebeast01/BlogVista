@@ -12,17 +12,19 @@ import { useRouter } from 'next/navigation';
 import { blogInterface } from '@/utils/interface/interface';
 const BlogCard = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [blogs, setBlogs] = useState<blogInterface[]>([]);
   console.log(blogs)
   const getAllBlog = async () => {
     try {
-
+      setIsLoading(true);
       const response: any = await axios.get(`${API_URL}/post/getAllPosts`, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
         }
       })
+      setIsLoading(false);
       if (!response.data || response.data?.length === 0) {
         console.log("No blogs found")
         return
@@ -39,6 +41,11 @@ const BlogCard = () => {
   }, [])
   return (
     <div className="grid grid-cols-1 border-1 border-border relative  bg-background md:grid-cols-2 lg:grid-cols-4 gap-6 pt-30 p-4">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-background">
+          <p className="text-lg text-secondary-foreground">Loading...</p>
+        </div>
+      )}
       {blogs.map((blog: any) => (
         <Card key={blog.id} className="overflow-hidden bg-card transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
           <div className="h-48 overflow-hidden rounded-md">
