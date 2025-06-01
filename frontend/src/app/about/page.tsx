@@ -15,10 +15,11 @@ import {
   Linkedin,
   ArrowRight,
   ChevronDown,
-  Mail
+  Mail,
 } from "lucide-react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Link from "next/link";
 
 
 export default function AboutPage() {
@@ -120,9 +121,9 @@ export default function AboutPage() {
               Our commitment is to maintain the highest standards of journalistic integrity while delivering content that resonates with our diverse audience.
             </p>
           </div>
-          <div className="aspect-video  relative  h-96 w-full">
+          <div className="aspect-video  relative mt-18 h-96 w-full">
             <Image
-              src="/images"
+              src="/images/mission.jpg"
               alt="Team meeting with creative ideas on whiteboard"
               fill
               className="object-cover  rounded-md "
@@ -234,24 +235,24 @@ export default function AboutPage() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-24 px-6 bg-primary text-primary-foreground">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold tracking-tight mb-4">Join Our Community</h2>
-          <p className="text-lg mb-8">
-            Subscribe to our newsletter and be the first to receive new content, exclusive insights, and special offers.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              className="bg-primary-foreground text-foreground"
-            />
-            <Button variant="secondary">
-              Subscribe
-            </Button>
-          </div>
-        </div>
-      </section>
+     <section className="py-24 px-6 bg-primary text-primary-foreground">
+  <div className="max-w-3xl mx-auto text-center">
+    <h2 className="text-4xl sm:text-5xl font-bold  mb-4">
+      Want updates from the VibeTrails community?
+    </h2>
+    <p className="text-lg sm:text-xl mb-8 ">
+      Sign up below to get inspiring stories, featured posts, and creative writing tips delivered straight to your inbox.
+    </p>
+
+    <div className="flex justify-center">
+      <Link href="/register">
+        <Button variant="secondary" className="px-6 py-3 text-base font-medium">
+          Sign Up
+        </Button>
+      </Link>
+    </div>
+  </div>
+</section>
 
       {/* Contact Section */}
       <section className="py-24 px-6 max-w-6xl mx-auto">
