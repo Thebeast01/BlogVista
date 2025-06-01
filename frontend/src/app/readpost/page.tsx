@@ -77,7 +77,7 @@ const BlogCard = () => {
         <Card key={blog.id} className="overflow-hidden bg-card transform hover:scale-105 transition-transform duration-300  flex flex-col h-full">
           <div className="h-48 overflow-hidden rounded-md">
             <Image
-              src="https://github.com/shadcn.png"
+              src={blog.coverImg}
               alt={blog.title}
               className="w-full h-full px-2 rounded-sm  object-cover  "
               height={200}
