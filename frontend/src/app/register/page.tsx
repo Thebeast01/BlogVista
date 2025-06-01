@@ -125,11 +125,11 @@ const Register = () => {
   return (
     <div className="h-screen  flex bg-background items-center justify-center ">
       {isLoading && (
-        <div className="absolute h-screen inset-0 flex items-center justify-center bg-background z-10">
+        <div className="absolute  h-screen inset-0 flex items-center justify-center bg-background z-10">
           <Loading />
         </div>
       )}
-      <div className="bg-muted  p-8 rounded-lg shadow-md shadow-card w-[400px] relative">
+      <div className="bg-muted  mt-12 p-6 rounded-lg shadow-md shadow-card w-[400px] relative">
         <h1 className="text-2xl font-bold text-foreground text-center">
           Register
         </h1>
@@ -153,8 +153,8 @@ const Register = () => {
             }
           />
           <Input
-            type="text"
-            placeholder="Email"
+            type="tel"
+            placeholder="Phone number"
             className="w-full rounded-md px-2 py-5 text-accent-foreground"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setRegisterInput({ ...registerInput, phoneNumber: e.target.value })
@@ -184,7 +184,7 @@ const Register = () => {
             autoComplete="current-password"
           />
           {/* Profile Picture Upload */}
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-row items-center gap-24">
             <label
               htmlFor="picture"
               className="flex gap-3 items-center justify-center w-full max-w-fit px-3 py-2 text-sm font-medium text-foreground bg-accent border border-border rounded-lg cursor-pointer hover:border-white transition"
@@ -224,10 +224,10 @@ const Register = () => {
               />
             )}
           </div>
-          <div className="flex items-center justify-between gap-4 py-4">
+          <div className="flex items-center justify-between gap-4">
             <Button
               variant={"outline"}
-              className="text-foreground py-2 px-6 rounded-md"
+              className="text-foreground  px-6 rounded-md "
               onClick={() =>
                 router.push("/login")
               }
@@ -236,7 +236,7 @@ const Register = () => {
             </Button>
             <Button
               variant={"outline"}
-              className="bg-accent text-primary py-2 px-6 rounded-md"
+              className="bg-accent text-primary  px-6 rounded-md "
               type="submit"
             >
               Register
