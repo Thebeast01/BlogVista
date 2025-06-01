@@ -8,7 +8,7 @@ import { createMessage } from "../../utils/twilio";
 import redisClient from "../../utils/redis";
 const jwtSecret = process.env.JWT_SECRET
 export const registerUser = async (req: any, res: Response) => {
-  const localImagePath = req.file?.path;
+  const localImagePath = req.file;
   if (!localImagePath) {
     res.status(400).json({ message: "Image is required" });
     return;

@@ -84,7 +84,8 @@ export const getPostById = async (req: any, res: Response) => {
   }
 }
 export const createPost = async (req: any, res: Response) => {
-  const localpath = req.file?.path;
+  const localpath = req.file;
+  console.log(req.file);
   const imageUrl = await uploadImageOnCloudinary(localpath);
 
   try {
