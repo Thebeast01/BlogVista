@@ -2,14 +2,17 @@ import { Response, Request } from "express";
 import bcrypt from "bcryptjs";
 import { prisma } from "../../db";
 import jwt from "jsonwebtoken";
-import { deleteImageOnCloudinary, uploadImageOnCloudinary } from "../../utils/cloudinary";
+import { uploadImageOnCloudinary } from "../../utils/cloudinary";
 import { generateToken, verifyToken } from "authenticator";
 import { createMessage } from "../../utils/twilio";
 import redisClient from "../../utils/redis";
 const jwtSecret = process.env.JWT_SECRET
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (req: any, res: Response) => {
   const localImagePath = req.file?.path;
-  console.log("localImagePath", localImagePath);
+  if (!localImagePath) {
+    res.status(400).json({ message: "Image is required" });
+    return;
+  }
   const imageUrl = await uploadImageOnCloudinary(localImagePath);
   try {
     const body = req.body;
@@ -59,7 +62,6 @@ export const registerUser = async (req: Request, res: Response) => {
       newUser
     })
   } catch (error) {
-    deleteImageOnCloudinary(imageUrl?.public_id || "");
     res.status(500).json({ message: "Internal server error", error });
   }
 }
