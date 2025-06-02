@@ -135,9 +135,12 @@ export const sendOtp = async (req: Request, res: Response) => {
     if (process.env.NODE_ENV === "production") {
 
       try {
-        await createMessage("Your Password Reset Otp for VibeTrails is : " + totp, phoneNumber);
+        const result = await createMessage("Your Password Reset Otp for VibeTrails is : " + totp, phoneNumber);
+
         res.status(200).json({
           message: "Otp sent successfully",
+          result,
+          totp
         })
       }
       catch (error) {
