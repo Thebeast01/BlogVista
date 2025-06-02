@@ -51,7 +51,7 @@ export const registerUser = async (req: any, res: Response) => {
     const newUser = await prisma.user.create({
       data: {
         email: body.email,
-        phoneNumber: body.phoneNumber,
+        phoneNumber: `+91${body.phoneNumber}`,
         password: hashedPassword,
         username: body.username,
         profilePicture: profileUrl,
