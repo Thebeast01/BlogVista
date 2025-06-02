@@ -80,6 +80,7 @@ import axios from "axios"
 import { Input } from "@/components/ui/input"
 import { API_URL } from "@/config"
 import Swal from "sweetalert2"
+import Loading from "@/app/loading"
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -194,6 +195,7 @@ interface PostData {
 }
 export function SimpleEditor() {
   const isMobile = useMobile()
+  const [isLoading, setIsLoading] = React.useState(false)
   const [data, setData] = React.useState<PostData>({
     title: '',
     content: null,
@@ -266,7 +268,7 @@ export function SimpleEditor() {
         formData.append("coverImg", payload.coverImg);
       }
       console.log("Payload to be sent:", payload);
-
+      setIsLoading(true);
       const response = await axios.post(`${API_URL}/post/createPost`, formData,
         {
           withCredentials: true,
@@ -276,6 +278,7 @@ export function SimpleEditor() {
         }
       )
       console.log("Response from server:", response.data)
+      setIsLoading(false);
       if (response.status === 201) {
         Swal.fire({
           title: "Post Created",
@@ -317,6 +320,13 @@ export function SimpleEditor() {
   };
   return (
     <>
+      {
+        isLoading && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <Loading />
+          </div>
+        )
+      }
       <EditorContext.Provider value={{ editor }} >
         <div className="flex flex-col md:flex-row justify-between px-8 gap-4 items-center w-full my-2">
           <div className="flex flex-col w-full  gap-2 ">
