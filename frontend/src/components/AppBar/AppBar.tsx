@@ -1,6 +1,6 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { logout } from "@/lib/store/features/auth/authSlice";
@@ -15,6 +15,7 @@ import ManageAccountModal from "../Accountmodel/ManageAccountModal";
 import { RootState } from "@/lib/store/store";
 import { ThemeSwitcher } from "../Theme/ThemeSwitcher";
 import MobileNav from "../mobilenav/MobileNav";
+import { isTokenValid } from "@/utils/functions";
 
 export const AppBar = () => {
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
@@ -35,6 +36,13 @@ export const AppBar = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
+  useEffect(() => {
+    let isTokenValie = isTokenValid();
+    if (!isTokenValie) {
+      dispatch(logout());
+      router.push('/login');
+    }
+  })
   console.log("user", user);
 
   return (
@@ -45,7 +53,7 @@ export const AppBar = () => {
       </div>
       <div className="flex items-center gap-4">
         <h1 className="text-2xl text-inherit hidden sm:flex">VibeTrails</h1>
-        
+
       </div>
       <div className=" hidden sm:flex items-center  gap-4 text-2xl">
         {menuItems.map((item, index) => (
@@ -95,16 +103,20 @@ export const AppBar = () => {
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
+            {
+              showProfileModal && (
+                <ManageAccountModal
+                  open={showProfileModal}
+                  onClose={() => setShowProfileModal(false)}
+                  user={{
+                    username: user?.username || "",
+                    email: user?.email || "",
+                    avatar: user?.avatar,
+                  }}
+                />
 
-            <ManageAccountModal
-              open={showProfileModal}
-              onClose={() => setShowProfileModal(false)}
-              user={{
-                username: user?.username || "",
-                email: user?.email || "",
-                avatar: user?.avatar,
-              }}
-            />
+              )
+            }
           </>
         )}
       </div>
