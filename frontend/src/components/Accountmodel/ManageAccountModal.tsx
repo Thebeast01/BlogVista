@@ -41,7 +41,7 @@ const ManageAccountModal: React.FC<ManageAccountModalProps> = ({ open, onClose, 
           <div className="flex flex-col items-center space-y-2">
             <div className="relative w-28 h-28">
               <Image
-                src={user.avatar as string}
+                src={user.avatar || "https://github.com/shadcn.png"}
                 alt="Avatar"
                 className="rounded-full object-cover border-2 border-white shadow-md text-center items-center "
                 fill

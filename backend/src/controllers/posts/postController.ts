@@ -105,13 +105,13 @@ export const createPost = async (req: any, res: Response) => {
       res.status(400).json({ message: "User ID is required" });
       return;
     }
-    const coverImageUrl = imageUrl;
+    const coverImageUrl = imageUrl.secure_url;
     const post = await prisma.post.create({
       data: {
         title: title,
         content: JSON.parse(content),
         published: true,
-        coverImg: coverImageUrl as string,
+        coverImg: coverImageUrl,
         authorId: id,
       }
 
