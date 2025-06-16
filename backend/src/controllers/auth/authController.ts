@@ -46,7 +46,7 @@ export const registerUser = async (req: any, res: Response) => {
       res.status(400).json({ message: "Image upload failed", });
       return
     }
-    const profileUrl = imageUrl.url;
+    const profileUrl = imageUrl;
     console.log("profileUrl", profileUrl);
     const newUser = await prisma.user.create({
       data: {
@@ -54,7 +54,7 @@ export const registerUser = async (req: any, res: Response) => {
         phoneNumber: `+91${body.phoneNumber}`,
         password: hashedPassword,
         username: body.username,
-        profilePicture: profileUrl,
+        profilePicture: profileUrl as string,
       }
     })
     res.status(200).json({
